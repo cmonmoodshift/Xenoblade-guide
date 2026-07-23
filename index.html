@@ -17,6 +17,11 @@
             color: #e6edf3;
             padding: 2rem 1.5rem;
             line-height: 1.5;
+            transition: background 0.3s, color 0.3s;
+        }
+        body.light-mode {
+            background: #f6f8fa;
+            color: #1f2328;
         }
         .container {
             max-width: 900px;
@@ -33,6 +38,10 @@
             justify-content: space-between;
             align-items: flex-end;
             gap: 1rem;
+            transition: border-color 0.3s;
+        }
+        body.light-mode header {
+            border-color: #d0d7de;
         }
         h1 {
             font-size: 2.2rem;
@@ -43,11 +52,21 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
+        body.light-mode h1 {
+            background: linear-gradient(135deg, #5c4b3a, #8a7a6a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
         .subtitle {
             color: #8b949e;
             font-size: 0.95rem;
             margin-top: 0.2rem;
             -webkit-text-fill-color: #8b949e;
+        }
+        body.light-mode .subtitle {
+            color: #57606a;
+            -webkit-text-fill-color: #57606a;
         }
         .legend {
             display: flex;
@@ -58,6 +77,11 @@
             border-radius: 30px;
             border: 1px solid #30363d;
             font-size: 0.9rem;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        body.light-mode .legend {
+            background: #ffffff;
+            border-color: #d0d7de;
         }
         .legend span {
             display: flex;
@@ -102,6 +126,10 @@
             border-bottom: 1px solid #2d333b;
             padding-bottom: 0.5rem;
             flex-wrap: wrap;
+            transition: border-color 0.3s;
+        }
+        body.light-mode .tab-bar {
+            border-color: #d0d7de;
         }
         .tab-btn {
             background: transparent;
@@ -114,11 +142,22 @@
             border-radius: 30px;
             transition: 0.15s;
         }
+        body.light-mode .tab-btn {
+            color: #57606a;
+        }
         .tab-btn:hover {
             color: #e6edf3;
             background: #21262d;
         }
+        body.light-mode .tab-btn:hover {
+            color: #1f2328;
+            background: #d0d7de;
+        }
         .tab-btn.active {
+            color: #fff;
+            background: #1f6feb;
+        }
+        body.light-mode .tab-btn.active {
             color: #fff;
             background: #1f6feb;
         }
@@ -134,6 +173,11 @@
             border: 1px solid #30363d;
             margin-bottom: 2rem;
             align-items: center;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        body.light-mode .controls {
+            background: #ffffff;
+            border-color: #d0d7de;
         }
         .controls label {
             font-weight: 500;
@@ -142,6 +186,9 @@
             display: flex;
             align-items: center;
             gap: 0.4rem;
+        }
+        body.light-mode .controls label {
+            color: #57606a;
         }
         .controls input,
         .controls select {
@@ -155,6 +202,12 @@
             transition: 0.2s;
             min-width: 160px;
         }
+        body.light-mode .controls input,
+        body.light-mode .controls select {
+            background: #f6f8fa;
+            border-color: #d0d7de;
+            color: #1f2328;
+        }
         .controls input:focus,
         .controls select:focus {
             border-color: #58a6ff;
@@ -162,6 +215,9 @@
         }
         .controls input::placeholder {
             color: #484f58;
+        }
+        body.light-mode .controls input::placeholder {
+            color: #8b949e;
         }
         .filter-buttons {
             display: flex;
@@ -179,11 +235,23 @@
             font-weight: 500;
             transition: 0.15s;
         }
+        body.light-mode .filter-btn {
+            border-color: #d0d7de;
+            color: #57606a;
+        }
         .filter-btn:hover {
             border-color: #58a6ff;
             color: #e6edf3;
         }
+        body.light-mode .filter-btn:hover {
+            color: #1f2328;
+        }
         .filter-btn.active {
+            background: #1f6feb;
+            border-color: #1f6feb;
+            color: #fff;
+        }
+        body.light-mode .filter-btn.active {
             background: #1f6feb;
             border-color: #1f6feb;
             color: #fff;
@@ -197,6 +265,11 @@
             padding: 1.2rem 1.8rem;
             margin-bottom: 2.5rem;
             border: 1px solid #4a2a2a;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        body.light-mode .warning-box {
+            background: #ffe3e3;
+            border-color: #da3633;
         }
         .warning-box h2 {
             color: #f08888;
@@ -216,8 +289,14 @@
             color: #d4c9c0;
             break-inside: avoid;
         }
+        body.light-mode .warning-box li {
+            color: #4a2a2a;
+        }
         .warning-box strong {
             color: #f0b3b3;
+        }
+        body.light-mode .warning-box strong {
+            color: #8a2a2a;
         }
 
         /* ----- VIEW CONTAINERS ----- */
@@ -242,6 +321,11 @@
             padding-bottom: 0.4rem;
             margin-bottom: 1.2rem;
             flex-wrap: wrap;
+            transition: border-color 0.3s;
+        }
+        body.light-mode .category-header,
+        body.light-mode .chapter-header {
+            border-color: #d0d7de;
         }
         .chapter-header {
             border-bottom-color: #1f6feb;
@@ -253,10 +337,18 @@
             font-weight: 600;
             color: #f0e6d0;
         }
+        body.light-mode .category-header h2,
+        body.light-mode .chapter-header h2 {
+            color: #2d333b;
+        }
         .category-header .count,
         .chapter-header .chapter-count {
             color: #8b949e;
             font-size: 0.85rem;
+        }
+        body.light-mode .category-header .count,
+        body.light-mode .chapter-header .chapter-count {
+            color: #57606a;
         }
         .chapter-header .chapter-warning {
             color: #f08888;
@@ -266,10 +358,18 @@
             border-radius: 20px;
             border: 1px solid #4a2a2a;
         }
+        body.light-mode .chapter-header .chapter-warning {
+            background: #ffe3e3;
+            border-color: #da3633;
+            color: #8a2a2a;
+        }
         .chapter-desc {
             color: #b1bac4;
             font-size: 0.9rem;
             margin-bottom: 1rem;
+        }
+        body.light-mode .chapter-desc {
+            color: #57606a;
         }
 
         /* ----- ACHIEVEMENT CARDS (vertical) ----- */
@@ -283,14 +383,22 @@
             border: 1px solid #30363d;
             border-radius: 12px;
             padding: 1rem 1.4rem;
-            transition: 0.15s;
+            transition: 0.15s, background 0.3s, border-color 0.3s;
             display: flex;
             flex-direction: column;
             gap: 0.3rem;
         }
+        body.light-mode .achievement-card {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
         .achievement-card:hover {
             border-color: #58a6ff;
             background: #1c2128;
+        }
+        body.light-mode .achievement-card:hover {
+            border-color: #58a6ff;
+            background: #f0f6fc;
         }
         .achievement-card.missable {
             border-left: 4px solid #da3633;
@@ -307,6 +415,9 @@
             font-size: 1rem;
             color: #f0f6fc;
         }
+        body.light-mode .achievement-card .name {
+            color: #1f2328;
+        }
         .achievement-card .badge-wrap {
             display: flex;
             gap: 0.4rem;
@@ -317,6 +428,9 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
+        body.light-mode .achievement-card .description {
+            color: #57606a;
+        }
         .achievement-card .complete-by {
             font-size: 0.8rem;
             color: #f08888;
@@ -326,6 +440,11 @@
             display: inline-block;
             align-self: flex-start;
             border: 1px solid #4a2a2a;
+        }
+        body.light-mode .achievement-card .complete-by {
+            background: #ffe3e3;
+            border-color: #da3633;
+            color: #8a2a2a;
         }
         .complete-by::before {
             content: "⏳ ";
@@ -364,15 +483,25 @@
             border-bottom: 2px solid #2d333b;
             padding-bottom: 0.4rem;
             margin-bottom: 1rem;
+            transition: border-color 0.3s;
+        }
+        body.light-mode .checklist-area-header {
+            border-color: #d0d7de;
         }
         .checklist-area-header h2 {
             font-size: 1.4rem;
             font-weight: 600;
             color: #f0e6d0;
         }
+        body.light-mode .checklist-area-header h2 {
+            color: #2d333b;
+        }
         .checklist-area-header .area-stats {
             color: #8b949e;
             font-size: 0.85rem;
+        }
+        body.light-mode .checklist-area-header .area-stats {
+            color: #57606a;
         }
         .checklist-area-actions {
             display: flex;
@@ -388,9 +517,16 @@
             font-size: 0.75rem;
             transition: 0.15s;
         }
+        body.light-mode .checklist-area-actions button {
+            border-color: #d0d7de;
+            color: #57606a;
+        }
         .checklist-area-actions button:hover {
             border-color: #58a6ff;
             color: #e6edf3;
+        }
+        body.light-mode .checklist-area-actions button:hover {
+            color: #1f2328;
         }
         .checklist-list {
             display: flex;
@@ -405,11 +541,18 @@
             border-radius: 8px;
             background: #161b22;
             border: 1px solid transparent;
-            transition: 0.1s;
+            transition: 0.1s, background 0.3s, border-color 0.3s;
+        }
+        body.light-mode .checklist-item {
+            background: #ffffff;
         }
         .checklist-item:hover {
             border-color: #30363d;
             background: #1c2128;
+        }
+        body.light-mode .checklist-item:hover {
+            border-color: #d0d7de;
+            background: #f6f8fa;
         }
         .checklist-item input[type="checkbox"] {
             flex-shrink: 0;
@@ -424,14 +567,23 @@
             color: #f0f6fc;
             font-size: 0.95rem;
         }
+        body.light-mode .checklist-item .item-name {
+            color: #1f2328;
+        }
         .checklist-item .item-desc {
             color: #8b949e;
             font-size: 0.85rem;
             margin-left: 0.4rem;
         }
+        body.light-mode .checklist-item .item-desc {
+            color: #57606a;
+        }
         .checklist-item .item-desc::before {
             content: "— ";
             color: #484f58;
+        }
+        body.light-mode .checklist-item .item-desc::before {
+            color: #8b949e;
         }
         .checklist-item .missable-tag {
             background: #da3633;
@@ -452,6 +604,10 @@
             padding: 0.05rem 0.4rem;
             border-radius: 10px;
         }
+        body.light-mode .checklist-item .complete-by-tag {
+            background: #ffe3e3;
+            color: #8a2a2a;
+        }
         .checklist-item .affinity-tag {
             color: #d29922;
             font-size: 0.7rem;
@@ -460,6 +616,11 @@
             padding: 0.05rem 0.4rem;
             border-radius: 10px;
             border: 1px solid #d29922;
+        }
+        body.light-mode .checklist-item .affinity-tag {
+            background: #fff3d0;
+            border-color: #d29922;
+            color: #8a6a00;
         }
         .checklist-item .superboss-tag {
             background: #da3633;
@@ -483,15 +644,27 @@
             background: #1f6feb;
             color: #fff;
         }
+        body.light-mode .loc-landmark {
+            background: #1f6feb;
+            color: #fff;
+        }
         .loc-location {
             background: #30363d;
             color: #8b949e;
+        }
+        body.light-mode .loc-location {
+            background: #d0d7de;
+            color: #57606a;
         }
         .checklist-item.checked .item-name {
             color: #58a6ff;
             text-decoration: line-through;
             text-decoration-color: #58a6ff;
             opacity: 0.7;
+        }
+        body.light-mode .checklist-item.checked .item-name {
+            color: #1f6feb;
+            text-decoration-color: #1f6feb;
         }
         .checklist-item.checked .item-desc {
             opacity: 0.5;
@@ -511,12 +684,169 @@
         .checklist-item.checked .loc-type {
             opacity: 0.5;
         }
+        /* Hide checked items when setting is on */
+        .checklist-item.hide-checked {
+            display: none;
+        }
+
+        /* ----- SETTINGS ----- */
+        .settings-section {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+            transition: background 0.3s, border-color 0.3s;
+        }
+        body.light-mode .settings-section {
+            background: #ffffff;
+            border-color: #d0d7de;
+        }
+        .settings-section h2 {
+            font-size: 1.3rem;
+            color: #f0e6d0;
+            margin-bottom: 1.2rem;
+            border-bottom: 1px solid #2d333b;
+            padding-bottom: 0.6rem;
+        }
+        body.light-mode .settings-section h2 {
+            color: #2d333b;
+            border-color: #d0d7de;
+        }
+        .setting-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid #21262d;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        body.light-mode .setting-row {
+            border-color: #d0d7de;
+        }
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+        .setting-label {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        .setting-label .setting-name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #f0f6fc;
+        }
+        body.light-mode .setting-label .setting-name {
+            color: #1f2328;
+        }
+        .setting-label .setting-desc {
+            font-size: 0.85rem;
+            color: #8b949e;
+        }
+        body.light-mode .setting-label .setting-desc {
+            color: #57606a;
+        }
+        /* Toggle switch */
+        .toggle {
+            position: relative;
+            width: 50px;
+            height: 28px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #30363d;
+            border-radius: 34px;
+            transition: 0.3s;
+        }
+        body.light-mode .toggle .slider {
+            background: #d0d7de;
+        }
+        .toggle .slider::before {
+            content: "";
+            position: absolute;
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background: #8b949e;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        body.light-mode .toggle .slider::before {
+            background: #ffffff;
+        }
+        .toggle input:checked+.slider {
+            background: #1f6feb;
+        }
+        .toggle input:checked+.slider::before {
+            transform: translateX(22px);
+            background: #fff;
+        }
+        .toggle input:focus+.slider {
+            box-shadow: 0 0 0 3px rgba(31, 111, 235, 0.3);
+        }
 
         .no-results {
             text-align: center;
             color: #8b949e;
             padding: 3rem 0;
             font-size: 1.1rem;
+        }
+        body.light-mode .no-results {
+            color: #57606a;
+        }
+
+        /* Group header for quests */
+        .quest-group-header {
+            margin: 0.5rem 0 0.2rem 0;
+            padding: 0.3rem 0.8rem;
+            background: #1c2128;
+            border-radius: 8px;
+            border-left: 3px solid #1f6feb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+        body.light-mode .quest-group-header {
+            background: #f0f6fc;
+            border-left-color: #1f6feb;
+        }
+        .quest-group-header .group-name {
+            font-weight: 600;
+            color: #58a6ff;
+            font-size: 0.9rem;
+        }
+        body.light-mode .quest-group-header .group-name {
+            color: #1f6feb;
+        }
+        .quest-group-header .group-stats {
+            color: #8b949e;
+            font-size: 0.75rem;
+        }
+        body.light-mode .quest-group-header .group-stats {
+            color: #57606a;
+        }
+        .quest-group-item {
+            margin-left: 1.5rem;
+            border-left: 2px solid #30363d;
+        }
+        body.light-mode .quest-group-item {
+            border-left-color: #d0d7de;
         }
 
         @media (max-width: 640px) {
@@ -570,17 +900,39 @@
             .checklist-area-actions {
                 justify-content: flex-start;
             }
+            .settings-section {
+                padding: 1rem;
+            }
+            .setting-row {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .toggle {
+                align-self: flex-start;
+            }
+            .quest-group-item {
+                margin-left: 0.5rem;
+            }
         }
         ::-webkit-scrollbar {
             width: 8px;
             background: #0d1117;
         }
+        body.light-mode ::-webkit-scrollbar {
+            background: #f6f8fa;
+        }
         ::-webkit-scrollbar-thumb {
             background: #30363d;
             border-radius: 10px;
         }
+        body.light-mode ::-webkit-scrollbar-thumb {
+            background: #d0d7de;
+        }
         ::-webkit-scrollbar-thumb:hover {
             background: #484f58;
+        }
+        body.light-mode ::-webkit-scrollbar-thumb:hover {
+            background: #b0b8c0;
         }
     </style>
 </head>
@@ -624,6 +976,7 @@
             <button class="tab-btn" data-view="quests">📋 Quests</button>
             <button class="tab-btn" data-view="affinity">⭐ Affinity</button>
             <button class="tab-btn" data-view="hearts">💕 Hearts</button>
+            <button class="tab-btn" data-view="settings">⚙️ Settings</button>
         </div>
 
         <!-- CONTROLS (shared) -->
@@ -693,6 +1046,37 @@
             <div id="heartsContainer"></div>
         </div>
 
+        <!-- VIEW: SETTINGS -->
+        <div id="settingsView" class="view-container">
+            <div class="settings-section">
+                <h2>⚙️ Settings</h2>
+
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <span class="setting-name">🌙 Dark / Light Mode</span>
+                        <span class="setting-desc">Switch between dark and light themes.</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="themeToggle" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="setting-row">
+                    <div class="setting-label">
+                        <span class="setting-name">✔️ Hide Checked Items</span>
+                        <span class="setting-desc">Hide completed checkmarks from all checklists.</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="hideCheckedToggle" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+            </div>
+            <p style="color:#8b949e;font-size:0.85rem;margin-top:0.5rem;">Settings are saved in your browser and persist across sessions.</p>
+        </div>
+
         <div style="margin-top:3rem;border-top:1px solid #2d333b;padding-top:1.5rem;text-align:center;color:#484f58;font-size:0.85rem;">
             Based on the original Wii version · All achievements listed with missable flags and lockout advice.
         </div>
@@ -710,7 +1094,50 @@
     <!-- ========== RENDER ENGINE ========== -->
     <script>
         // --------------------------------------------------------------
-        //  CHAPTER MAPPING (needs to be here because it uses achievementData)
+        //  SETTINGS
+        // --------------------------------------------------------------
+        const SETTINGS_KEY = 'xenoblade_settings';
+
+        function loadSettings() {
+            try {
+                const raw = localStorage.getItem(SETTINGS_KEY);
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* ignore */ }
+            return { theme: 'dark', hideChecked: false };
+        }
+
+        function saveSettings(settings) {
+            localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
+        }
+
+        let settings = loadSettings();
+
+        // Apply theme
+        function applyTheme(theme) {
+            if (theme === 'light') {
+                document.body.classList.add('light-mode');
+            } else {
+                document.body.classList.remove('light-mode');
+            }
+            const toggle = document.getElementById('themeToggle');
+            if (toggle) toggle.checked = (theme === 'light');
+        }
+
+        // Apply hide-checked
+        function applyHideChecked(hide) {
+            const toggle = document.getElementById('hideCheckedToggle');
+            if (toggle) toggle.checked = hide;
+            // Re-render all checklist views to apply/remove hide
+            renderLocations();
+            renderCollect();
+            renderUnique();
+            renderQuests();
+            renderAffinity();
+            renderHearts();
+        }
+
+        // --------------------------------------------------------------
+        //  CHAPTER MAPPING
         // --------------------------------------------------------------
         function getChapterForAchievement(name) {
             const map = {
@@ -946,7 +1373,7 @@
         const allAchievements = getAllAchievements();
 
         // --------------------------------------------------------------
-        //  RENDER ENGINE (same as before, uses global data)
+        //  RENDER ENGINE
         // --------------------------------------------------------------
         const categoryContainer = document.getElementById('categoryContainer');
         const chapterContainer = document.getElementById('chapterContainer');
@@ -982,6 +1409,7 @@
         const questView = document.getElementById('questView');
         const affinityView = document.getElementById('affinityView');
         const heartsView = document.getElementById('heartsView');
+        const settingsView = document.getElementById('settingsView');
 
         tabBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -996,6 +1424,7 @@
                 questView.classList.remove('active');
                 affinityView.classList.remove('active');
                 heartsView.classList.remove('active');
+                settingsView.classList.remove('active');
                 const controls = document.getElementById('mainControls');
                 if (view === 'category' || view === 'chapter') {
                     controls.style.display = 'flex';
@@ -1025,6 +1454,8 @@
                 } else if (view === 'hearts') {
                     heartsView.classList.add('active');
                     renderHearts();
+                } else if (view === 'settings') {
+                    settingsView.classList.add('active');
                 }
             });
         });
@@ -1180,6 +1611,23 @@
         }
 
         // ==============================================================
+        //  HELPER: apply hide-checked to a container
+        // ==============================================================
+        function applyHideCheckedToContainer(containerId) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            const items = container.querySelectorAll('.checklist-item');
+            const hide = settings.hideChecked;
+            items.forEach(item => {
+                if (hide && item.classList.contains('checked')) {
+                    item.classList.add('hide-checked');
+                } else {
+                    item.classList.remove('hide-checked');
+                }
+            });
+        }
+
+        // ==============================================================
         //  LOCATION CHECKLIST
         // ==============================================================
         const LOC_STORAGE = 'xenoblade_location_checklist';
@@ -1235,6 +1683,7 @@
             </div>`;
 
             locationContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('locationContainer');
 
             document.querySelectorAll('#locationContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
@@ -1329,6 +1778,7 @@
             </div>`;
 
             collectContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('collectContainer');
 
             document.querySelectorAll('#collectContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
@@ -1425,6 +1875,7 @@
             </div>`;
 
             uniqueContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('uniqueContainer');
 
             document.querySelectorAll('#uniqueContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
@@ -1467,7 +1918,7 @@
         });
 
         // ==============================================================
-        //  QUEST CHECKLIST
+        //  QUEST CHECKLIST (with grouping)
         // ==============================================================
         const QST_STORAGE = 'xenoblade_quest_checklist';
 
@@ -1501,7 +1952,43 @@
                             </div>
                         </div>`;
                 html += `<div class="checklist-list">`;
+
+                // --- GROUPING LOGIC ---
+                const groups = {};
+                const standalone = [];
                 area.quests.forEach(q => {
+                    if (q.group) {
+                        if (!groups[q.group]) groups[q.group] = [];
+                        groups[q.group].push(q);
+                    } else {
+                        standalone.push(q);
+                    }
+                });
+
+                // Render grouped quests
+                for (const [groupName, quests] of Object.entries(groups)) {
+                    const allChecked = quests.every(q => state[q.name] === true);
+                    const checkedCountGroup = quests.filter(q => state[q.name] === true).length;
+
+                    html += `<div class="quest-group-header">
+                                <span class="group-name">📋 ${groupName}</span>
+                                <span class="group-stats">${checkedCountGroup} / ${quests.length}</span>
+                            </div>`;
+                    quests.forEach(q => {
+                        const checked = state[q.name] === true;
+                        const missable = q.missable || false;
+                        html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
+                                    <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${q.name}</span>
+                                    ${missable ? '<span class="missable-tag">missable</span>' : ''}
+                                    ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
+                                    <span class="item-desc">${q.desc}</span>
+                                </div>`;
+                    });
+                }
+
+                // Render standalone quests
+                standalone.forEach(q => {
                     const checked = state[q.name] === true;
                     const missable = q.missable || false;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
@@ -1512,17 +1999,20 @@
                                 <span class="item-desc">${q.desc}</span>
                             </div>`;
                 });
+
                 html += `</div></div>`;
             });
 
             const overallHtml =
                 `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
-                <span style="font-weight:600;">📋 Total Progress</span>
-                <span>${totalChecked} / ${totalAll} quests completed</span>
-            </div>`;
+                    <span style="font-weight:600;">📋 Total Progress</span>
+                    <span>${totalChecked} / ${totalAll} quests completed</span>
+                </div>`;
 
             questContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('questContainer');
 
+            // Event listeners
             document.querySelectorAll('#questContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
                     const name = e.target.dataset.name;
@@ -1623,6 +2113,7 @@
             </div>`;
 
             affinityContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('affinityContainer');
 
             document.querySelectorAll('#affinityContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
@@ -1725,6 +2216,7 @@
             </div>`;
 
             heartsContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('heartsContainer');
 
             document.querySelectorAll('#heartsContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
@@ -1767,7 +2259,31 @@
         });
 
         // ==============================================================
-        //  EVENT LISTENERS
+        //  SETTINGS EVENT LISTENERS
+        // ==============================================================
+        const themeToggle = document.getElementById('themeToggle');
+        const hideCheckedToggle = document.getElementById('hideCheckedToggle');
+
+        themeToggle.addEventListener('change', (e) => {
+            const newTheme = e.target.checked ? 'light' : 'dark';
+            settings.theme = newTheme;
+            saveSettings(settings);
+            applyTheme(newTheme);
+        });
+
+        hideCheckedToggle.addEventListener('change', (e) => {
+            settings.hideChecked = e.target.checked;
+            saveSettings(settings);
+            renderLocations();
+            renderCollect();
+            renderUnique();
+            renderQuests();
+            renderAffinity();
+            renderHearts();
+        });
+
+        // ==============================================================
+        //  EVENT LISTENERS (search, filter, etc.)
         // ==============================================================
         searchInput.addEventListener('input', (e) => {
             currentSearch = e.target.value.toLowerCase().trim();
@@ -1794,7 +2310,13 @@
             });
         });
 
-        // Initial renders
+        // ==============================================================
+        //  INITIAL RENDERS & SETTINGS APPLY
+        // ==============================================================
+        applyTheme(settings.theme);
+        document.getElementById('themeToggle').checked = (settings.theme === 'light');
+        document.getElementById('hideCheckedToggle').checked = settings.hideChecked;
+
         renderCategoryView();
         renderChapterView();
         renderLocations();
