@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xenoblade Chronicles (Wii) · Guide</title>
+    <style>
+        /* ----- RESET & BASE ----- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+            background: #0d1117;
+            color: #e6edf3;
+            padding: 2rem 1.5rem;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* ----- HEADER ----- */
+        header {
+            border-bottom: 2px solid #2d333b;
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 1rem;
+        }
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f0e6d0, #b8a58a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .subtitle {
+            color: #8b949e;
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+            -webkit-text-fill-color: #8b949e;
+        }
+        .legend {
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            background: #161b22;
+            padding: 0.6rem 1.2rem;
+            border-radius: 30px;
+            border: 1px solid #30363d;
+            font-size: 0.9rem;
+        }
+        .legend span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .missable-badge {
+            background: #da3633;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.6rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .safe-badge {
+            background: #238636;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.6rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+        .legend .star-badge {
+            background: #d29922;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.6rem;
+            border-radius: 20px;
+            letter-spacing: 0.3px;
+        }
+
+        /* ----- TABS ----- */
+        .tab-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
+            border-bottom: 1px solid #2d333b;
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: #8b949e;
+            padding: 0.5rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: 0.15s;
+        }
+        .tab-btn:hover {
+            color: #e6edf3;
+            background: #21262d;
+        }
+        .tab-btn.active {
+            color: #fff;
+            background: #1f6feb;
+        }
+
+        /* ----- CONTROLS (shared) ----- */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem 1.2rem;
+            background: #161b22;
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid #30363d;
+            margin-bottom: 2rem;
+            align-items: center;
+        }
+        .controls label {
+            font-weight: 500;
+            color: #8b949e;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .controls input,
+        .controls select {
+            background: #0d1117;
+            border: 1px solid #30363d;
+            color: #e6edf3;
+            padding: 0.45rem 0.9rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.2s;
+            min-width: 160px;
+        }
+        .controls input:focus,
+        .controls select:focus {
+            border-color: #58a6ff;
+            box-shadow: 0 0 0 3px rgba(88, 166, 255, 0.2);
+        }
+        .controls input::placeholder {
+            color: #484f58;
+        }
+        .filter-buttons {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 500;
+            transition: 0.15s;
+        }
+        .filter-btn:hover {
+            border-color: #58a6ff;
+            color: #e6edf3;
+        }
+        .filter-btn.active {
+            background: #1f6feb;
+            border-color: #1f6feb;
+            color: #fff;
+        }
+
+        /* ----- WARNING BOX ----- */
+        .warning-box {
+            background: #2d1b1b;
+            border-left: 6px solid #da3633;
+            border-radius: 12px;
+            padding: 1.2rem 1.8rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #4a2a2a;
+        }
+        .warning-box h2 {
+            color: #f08888;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .warning-box ul {
+            margin-top: 0.6rem;
+            padding-left: 1.5rem;
+            columns: 2 280px;
+            column-gap: 2rem;
+        }
+        .warning-box li {
+            margin-bottom: 0.3rem;
+            color: #d4c9c0;
+            break-inside: avoid;
+        }
+        .warning-box strong {
+            color: #f0b3b3;
+        }
+
+        /* ----- VIEW CONTAINERS ----- */
+        .view-container {
+            display: none;
+        }
+        .view-container.active {
+            display: block;
+        }
+
+        /* ----- CATEGORY & CHAPTER VIEW ----- */
+        .category,
+        .chapter-section {
+            margin-bottom: 2.8rem;
+        }
+        .category-header,
+        .chapter-header {
+            display: flex;
+            align-items: baseline;
+            gap: 1rem;
+            border-bottom: 1px solid #2d333b;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1.2rem;
+            flex-wrap: wrap;
+        }
+        .chapter-header {
+            border-bottom-color: #1f6feb;
+            border-bottom-width: 2px;
+        }
+        .category-header h2,
+        .chapter-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #f0e6d0;
+        }
+        .category-header .count,
+        .chapter-header .chapter-count {
+            color: #8b949e;
+            font-size: 0.85rem;
+        }
+        .chapter-header .chapter-warning {
+            color: #f08888;
+            font-size: 0.85rem;
+            background: #2d1b1b;
+            padding: 0.1rem 0.8rem;
+            border-radius: 20px;
+            border: 1px solid #4a2a2a;
+        }
+        .chapter-desc {
+            color: #b1bac4;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ----- ACHIEVEMENT CARDS (vertical) ----- */
+        .achievement-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .achievement-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 1rem 1.4rem;
+            transition: 0.15s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .achievement-card:hover {
+            border-color: #58a6ff;
+            background: #1c2128;
+        }
+        .achievement-card.missable {
+            border-left: 4px solid #da3633;
+        }
+        .achievement-card .top-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .achievement-card .name {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #f0f6fc;
+        }
+        .achievement-card .badge-wrap {
+            display: flex;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
+        .achievement-card .description {
+            color: #b1bac4;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        .achievement-card .complete-by {
+            font-size: 0.8rem;
+            color: #f08888;
+            background: #2d1b1b;
+            padding: 0.1rem 0.7rem;
+            border-radius: 20px;
+            display: inline-block;
+            align-self: flex-start;
+            border: 1px solid #4a2a2a;
+        }
+        .complete-by::before {
+            content: "⏳ ";
+        }
+        .safe-badge-sm {
+            background: #238636;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+        .missable-badge-sm {
+            background: #da3633;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 600;
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+
+        /* ----- CHECKLIST (shared) ----- */
+        .checklist-area {
+            margin-bottom: 2.5rem;
+        }
+        .checklist-area-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            border-bottom: 2px solid #2d333b;
+            padding-bottom: 0.4rem;
+            margin-bottom: 1rem;
+        }
+        .checklist-area-header h2 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f0e6d0;
+        }
+        .checklist-area-header .area-stats {
+            color: #8b949e;
+            font-size: 0.85rem;
+        }
+        .checklist-area-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        .checklist-area-actions button {
+            background: transparent;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: 0.15s;
+        }
+        .checklist-area-actions button:hover {
+            border-color: #58a6ff;
+            color: #e6edf3;
+        }
+        .checklist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .checklist-item {
+            display: flex;
+            align-items: baseline;
+            gap: 0.8rem;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            background: #161b22;
+            border: 1px solid transparent;
+            transition: 0.1s;
+        }
+        .checklist-item:hover {
+            border-color: #30363d;
+            background: #1c2128;
+        }
+        .checklist-item input[type="checkbox"] {
+            flex-shrink: 0;
+            width: 18px;
+            height: 18px;
+            accent-color: #1f6feb;
+            cursor: pointer;
+            margin-top: 2px;
+        }
+        .checklist-item .item-name {
+            font-weight: 500;
+            color: #f0f6fc;
+            font-size: 0.95rem;
+        }
+        .checklist-item .item-desc {
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-left: 0.4rem;
+        }
+        .checklist-item .item-desc::before {
+            content: "— ";
+            color: #484f58;
+        }
+        .checklist-item .missable-tag {
+            background: #da3633;
+            color: #fff;
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 0.05rem 0.5rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+        .checklist-item .complete-by-tag {
+            color: #f08888;
+            font-size: 0.7rem;
+            margin-left: 0.3rem;
+            background: #2d1b1b;
+            padding: 0.05rem 0.4rem;
+            border-radius: 10px;
+        }
+        .checklist-item .affinity-tag {
+            color: #d29922;
+            font-size: 0.7rem;
+            margin-left: 0.3rem;
+            background: #2d1b1b;
+            padding: 0.05rem 0.4rem;
+            border-radius: 10px;
+            border: 1px solid #d29922;
+        }
+        .checklist-item .superboss-tag {
+            background: #da3633;
+            color: #fff;
+            font-size: 0.55rem;
+            font-weight: 600;
+            padding: 0.05rem 0.5rem;
+            border-radius: 20px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+        }
+        .checklist-item .loc-type {
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 0.05rem 0.4rem;
+            border-radius: 10px;
+            margin-left: 0.3rem;
+        }
+        .loc-landmark {
+            background: #1f6feb;
+            color: #fff;
+        }
+        .loc-location {
+            background: #30363d;
+            color: #8b949e;
+        }
+        .checklist-item.checked .item-name {
+            color: #58a6ff;
+            text-decoration: line-through;
+            text-decoration-color: #58a6ff;
+            opacity: 0.7;
+        }
+        .checklist-item.checked .item-desc {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .missable-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .complete-by-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .affinity-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .superboss-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .loc-type {
+            opacity: 0.5;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #8b949e;
+            padding: 3rem 0;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem 0.8rem;
+            }
+            header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .legend {
+                justify-content: center;
+                font-size: 0.8rem;
+            }
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .controls label {
+                flex-wrap: wrap;
+            }
+            .filter-buttons {
+                justify-content: center;
+            }
+            .warning-box ul {
+                columns: 1;
+            }
+            .tab-bar {
+                justify-content: center;
+            }
+            .tab-btn {
+                padding: 0.4rem 1rem;
+                font-size: 0.85rem;
+            }
+            .checklist-item {
+                flex-wrap: wrap;
+                gap: 0.2rem;
+            }
+            .checklist-item .item-desc {
+                margin-left: 0;
+                width: 100%;
+                padding-left: 2rem;
+            }
+            .checklist-item .item-desc::before {
+                content: "";
+            }
+            .checklist-area-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .checklist-area-actions {
+                justify-content: flex-start;
+            }
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+            background: #0d1117;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #30363d;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484f58;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+
+        <!-- HEADER -->
+        <header>
+            <div>
+                <h1>Xenoblade Chronicles <span style="font-weight:400;font-size:1.4rem;color:#8b949e;">(Wii)</span></h1>
+                <div class="subtitle">Spoiler‑free achievement guide · 195 achievements</div>
+            </div>
+            <div class="legend">
+                <span><span class="missable-badge">Missable</span> must be done before a point of no return</span>
+                <span><span class="safe-badge">Safe</span> can be done anytime</span>
+                <span><span class="star-badge">⭐</span> Area Affinity</span>
+            </div>
+        </header>
+
+        <!-- POINTS OF NO RETURN -->
+        <div class="warning-box">
+            <h2>⚠️ Points of No Return</h2>
+            <p style="color:#d4c9c0;margin-top:0.3rem;">Before these story moments, <strong>stop and complete all missable achievements</strong> in the affected areas:</p>
+            <ul>
+                <li><strong>Refuge Camp move</strong> → all timed quests disappear</li>
+                <li><strong>Ether Mine boss</strong> → second half of the mine locks</li>
+                <li><strong>End of Mechonis Field</strong> → Sword Valley &amp; Galahad Fortress become inaccessible</li>
+                <li><strong>Agniratha final event</strong> → Mechonis Field, Central Factory, Agniratha lock</li>
+                <li><strong>Final point of no return</strong> → you cannot leave once entered</li>
+            </ul>
+            <p style="margin-top:0.6rem;color:#b1bac4;font-size:0.9rem;">The game <strong>warns you</strong> before each lockout — save in a new slot when you see it.</p>
+        </div>
+
+        <!-- TABS -->
+        <div class="tab-bar">
+            <button class="tab-btn active" data-view="category">📂 Category</button>
+            <button class="tab-btn" data-view="chapter">📖 Chapter</button>
+            <button class="tab-btn" data-view="locations">🗺️ Locations</button>
+            <button class="tab-btn" data-view="collect">📦 Collectopaedia</button>
+            <button class="tab-btn" data-view="unique">⚔️ Unique</button>
+            <button class="tab-btn" data-view="quests">📋 Quests</button>
+            <button class="tab-btn" data-view="affinity">⭐ Affinity</button>
+            <button class="tab-btn" data-view="hearts">💕 Hearts</button>
+        </div>
+
+        <!-- CONTROLS (shared) -->
+        <div class="controls" id="mainControls">
+            <div style="display:flex;flex-wrap:wrap;gap:0.6rem;flex:1;">
+                <label>
+                    🔍
+                    <input type="text" id="searchInput" placeholder="Search achievements…" />
+                </label>
+                <label>
+                    📂
+                    <select id="categoryFilter">
+                        <option value="all">All Categories</option>
+                    </select>
+                </label>
+            </div>
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="missable">⚠️ Missable</button>
+                <button class="filter-btn" data-filter="safe">✅ Safe</button>
+            </div>
+        </div>
+
+        <!-- VIEWS -->
+        <div id="categoryView" class="view-container active"><div id="categoryContainer"></div></div>
+        <div id="chapterView" class="view-container"><div id="chapterContainer"></div></div>
+        <div id="locationsView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off locations as you discover them — progress is saved in your browser.</span>
+                <button id="resetLocationProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="locationContainer"></div>
+        </div>
+        <div id="collectView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off collectables as you complete each Collectopaedia entry — progress is saved in your browser.</span>
+                <button id="resetCollectProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="collectContainer"></div>
+        </div>
+        <div id="uniqueView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off Unique Monsters as you defeat them — progress is saved in your browser.</span>
+                <button id="resetUniqueProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="uniqueContainer"></div>
+        </div>
+        <div id="questView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off quests as you complete them — progress is saved in your browser.</span>
+                <button id="resetQuestProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="questContainer"></div>
+        </div>
+        <div id="affinityView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off each star level as you reach it — progress is saved in your browser.</span>
+                <button id="resetAffinityProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="affinityContainer"></div>
+        </div>
+        <div id="heartsView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off Heart-to-Hearts as you view them — progress is saved in your browser.</span>
+                <button id="resetHeartsProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="heartsContainer"></div>
+        </div>
+
+        <div style="margin-top:3rem;border-top:1px solid #2d333b;padding-top:1.5rem;text-align:center;color:#484f58;font-size:0.85rem;">
+            Based on the original Wii version · All achievements listed with missable flags and lockout advice.
+        </div>
+    </div>
+
+    <!-- ========== DATA IMPORTS ========== -->
+    <script src="data/achievements.js"></script>
+    <script src="data/locations.js"></script>
+    <script src="data/collectopaedia.js"></script>
+    <script src="data/unique_monsters.js"></script>
+    <script src="data/quests.js"></script>
+    <script src="data/affinity.js"></script>
+    <script src="data/heart_to_hearts.js"></script>
+
+    <!-- ========== RENDER ENGINE ========== -->
+    <script>
+        // --------------------------------------------------------------
+        //  CHAPTER MAPPING (needs to be here because it uses achievementData)
+        // --------------------------------------------------------------
+        function getChapterForAchievement(name) {
+            const map = {
+                'Seize Our Destiny': 6,
+                'An Ancient Evil Awoke': 1,
+                'Ancient Automatons Annihilated': 1,
+                'I Will Not Cry': 1,
+                'Arachno Armour': 1,
+                'Shielded Against Spiders': 1,
+                'I Need a Medic': 2,
+                'Evasive Maneuvers': 2,
+                'Sit Back and Observe': 2,
+                'Fueled by Bitterness': 2,
+                'Leave It to This Old Fossil': 2,
+                'Secrets of Satorl': 3,
+                'The Purge': 3,
+                'Resistance Is Futile': 3,
+                'Heropon Save the Day': 3,
+                'Dinobeast No Match for Heropon!': 3,
+                'Subpar Service': 4,
+                'Trials and Tribulations': 4,
+                'Beyond Your Birthright': 4,
+                'The True Monado': 5,
+                'Unfriendly Reunion': 6,
+                'Vengeance': 6,
+                'Conflict Between Old Comrades': 6,
+                'Reunited': 6,
+                'The Sniper': 7,
+                'Love at First Sight': 7,
+                'Master of the Machina': 8,
+                'Shot Through the Heart': 8,
+                'All That Glitters Is Not Gold': 8,
+                'Clairvoyance Deficiency': 9,
+                'Six Still Stands': 9,
+                'Heartburn': 9,
+                'Disciple Disciplined': 9,
+                'The Mentor': 9,
+                'A World with No Gods': 9,
+                'Beginning of the World': 9,
+                'This Little Piggy': 1,
+                'Shin Sightseeing': 1,
+                'Get a Leg Up': 2,
+                'Hom\'s Heaven': 2,
+                'Into the Depths': 2,
+                'Swamp Ass': 3,
+                'Anatomical Anomalies': 9,
+                'A Pat on the Back': 3,
+                'Nopon Neck of the Woods': 3,
+                'The Apex': 4,
+                'Wet Willie': 4,
+                'Prison of the Mind': 5,
+                'All in the Wrist': 6,
+                'Study the Blade': 6,
+                'Seige on the Sword': 6,
+                'Discovering Digits': 8,
+                'Into the Machine': 7,
+                'Heart of the Operation': 7,
+                'End of the Road': 8,
+                'Colony Collection': 1,
+                'Subterranean Sweets': 1,
+                'Prizes of the Plain': 2,
+                'Reconstruction Rewards': 2,
+                'Mining for Valuables': 2,
+                'Murky Masses': 3,
+                'Vast Vegetation': 3,
+                'Riki Find Item!': 3,
+                'Sea of Spoils': 4,
+                'Royal Riches': 4,
+                'Ancient Artifacts': 4,
+                'Snowy Splendors': 6,
+                'Wonders on the Weapon': 6,
+                'Fortress Finds': 6,
+                'Green Thumb': 8,
+                'Mechanical Memories': 7,
+                'Factory Made': 7,
+                'A Head for Treasure Hunting': 8,
+                'Internal Items': 9,
+                'Baubles of the Brain': 5,
+                'Trading Troubles': 9,
+                'Colony Conqueror': 1,
+                'Tephra Take-down': 1,
+                'A Step Ahead': 2,
+                'Neighborhood Watch': 2,
+                'Seizing Satorl': 3,
+                'Bunny Beatdown': 3,
+                'Deforestation': 3,
+                'Sea of Struggles': 4,
+                'Laid to Rest': 4,
+                'An Uphill Battle': 6,
+                'Final Showdown': 6,
+                'Ice Cold Clash': 6,
+                'Showdown at the Summit': 6,
+                'Valiant Valley': 6,
+                'Knight in Shining Armour': 6,
+                'An Arm and a Leg': 8,
+                'Daedala Destruction': 8,
+                'Evening the Field': 7,
+                'Central Crusade': 7,
+                'Monstrous Migraine': 8,
+                'Internal Struggle': 9,
+                'Prison Break': 5,
+                'Hometown Hero': 1,
+                'Cave Crusader': 1,
+                'Not So Plain After All': 2,
+                'Colony Six\'s Savior': 2,
+                'Managing the Marsh': 3,
+                'Settling the Frontier': 3,
+                'Sea a Solution': 4,
+                'High Entia Helper': 4,
+                'Questing in the Cold': 6,
+                'Sworn by the Sword': 6,
+                'Lending a Hand': 8,
+                'Agniratha\'s Advancement': 8,
+                'Idol of Colony 9': 1,
+                'Star of Colony 9': 1,
+                'Celebrity of Colony 9': 1,
+                'Hero of Colony 9': 1,
+                'Idol of Colony 6': 2,
+                'Star of Colony 6': 2,
+                'Celebrity of Colony 6': 2,
+                'Hero of Colony 6': 2,
+                'Idol of Central Bionis': 3,
+                'Star of Central Bionis': 3,
+                'Celebrity of Central Bionis': 3,
+                'Hero of Central Bionis': 3,
+                'Idol of Upper Bionis': 4,
+                'Star of Upper Bionis': 4,
+                'Celebrity of Upper Bionis': 4,
+                'Hero of Upper Bionis': 4,
+                'Idol of the Hidden Village': 8,
+                'Star of the Hidden Village': 8,
+                'Celebrity of the Hidden Village': 8,
+                'Hero of the Hidden Village': 8,
+                'Natural-Born Leader': 'general',
+                'Shield of the Squad': 'general',
+                'Compassionate Caretaker': 'general',
+                'Warrior\'s Trust': 'general',
+                'Royal Connections': 'general',
+                'Heropon\'s Bestest Friends!': 'general',
+                'Our Bonds Shall Endure': 'general',
+                'Friends Around the World': 'general',
+                'Roots Across the World': 'general',
+                'Heartwarming': 4,
+                'Heartbreaking': 4,
+                'Ace of Hearts': 'general',
+                'I Can Change the Future': 'general',
+                'Sullen Shulk': 'general',
+                'Jolly Cooperation': 'general',
+                'Every Time Is Reyn Time': 'general',
+                'A Healing Touch': 'general',
+                'Colony Six Stands Beside You': 'general',
+                'Stubborn Soldier': 'general',
+                'The Voice of Reason': 'general',
+                'Reserved Royalty': 'general',
+                'Passionate Princess': 'general',
+                'Leave it to Heropon!': 'general',
+                'Riki Scared! Friends Run!': 'general',
+                'Self-Sacrifice': 'general',
+                'Hope for a Brighter Tomorrow': 'general',
+                'A Unique Undertaking': 'general',
+                'Worldly Wise': 'general',
+                'Pioneer': 'general',
+                'Selfless Giver': 'general',
+                'Bursting at the Seams': 'general',
+                'World Shaker': 'general',
+                'Monster Masher': 'general',
+                'Butterfly Effect': 'general',
+                'You\'re a Lifesaver!': 'general',
+                'Now\'s My Chance!': 'general',
+                'Chain of Chains': 'general',
+                'Chain Reaction': 'general',
+                'Chain Bond': 'general',
+                'Backscratcher': 'general',
+                'Arise Anew': 'general',
+                'Feel the Flow of Battle': 'general',
+                'Collaboration of the Arts': 'general',
+                'Flip the Coin': 'general',
+                'Against the Odds': 'general',
+                'Evil Slash': 'general',
+                'Lucky Seven': 'general',
+                'Luscious Loot': 'general',
+                'Bounty of the Bionis': 'general',
+                'Ether Excitement': 'general',
+                'Locked and Loaded': 'general',
+                'Happy Birthday!': 'general',
+                'The Source of Life': 'general',
+                'Master Tradesman': 'general',
+                'Cutthroat Prices': 2,
+                'I Can Feel the Power!': 'general',
+                'Insatiable Sword': 'general',
+                'The Power to Protect': 'general',
+                'Now It\'s Reyn Time!': 'general',
+                'Medical Marksman': 'general',
+                'A Cut Above the Rest': 'general',
+                'Savior of the Nopon': 'general',
+                'Witness My Power': 'general',
+                'Cybernetic Superiority': 'general',
+                'Memories of Our Old Home': 'general',
+                'We Shall Rebuild': 'general',
+                'It Takes a Village': 'general',
+                'An End in Sight': 'general',
+                'A Shining Beacon of Hope': 'general',
+                'Achievement Achievement': 'general'
+            };
+            if (map[name]) return map[name];
+            if (name.includes('Colony 9') || name.includes('Tephra')) return 1;
+            if (name.includes('Bionis\' Leg') || name.includes('Ether Mine') || name.includes('Leg') || name.includes('Ether'))
+            return 2;
+            if (name.includes('Satorl') || name.includes('Makna') || name.includes('Frontier')) return 3;
+            if (name.includes('Eryth') || name.includes('Alcamoth') || name.includes('High Entia')) return 4;
+            if (name.includes('Prison Island')) return 5;
+            if (name.includes('Sword Valley') || name.includes('Galahad')) return 6;
+            if (name.includes('Mechonis Field') || name.includes('Central Factory')) return 7;
+            if (name.includes('Agniratha') || name.includes('Mechonis Core') || name.includes('Fallen Arm')) return 8;
+            if (name.includes('Bionis\' Interior')) return 9;
+            return 'general';
+        }
+
+        function getAllAchievements() {
+            const all = [];
+            achievementData.forEach(cat => {
+                cat.achievements.forEach(a => {
+                    all.push({
+                        ...a,
+                        category: cat.id,
+                        categoryLabel: cat.label,
+                        chapter: getChapterForAchievement(a.name)
+                    });
+                });
+            });
+            return all;
+        }
+        const allAchievements = getAllAchievements();
+
+        // --------------------------------------------------------------
+        //  RENDER ENGINE (same as before, uses global data)
+        // --------------------------------------------------------------
+        const categoryContainer = document.getElementById('categoryContainer');
+        const chapterContainer = document.getElementById('chapterContainer');
+        const locationContainer = document.getElementById('locationContainer');
+        const collectContainer = document.getElementById('collectContainer');
+        const uniqueContainer = document.getElementById('uniqueContainer');
+        const questContainer = document.getElementById('questContainer');
+        const affinityContainer = document.getElementById('affinityContainer');
+        const heartsContainer = document.getElementById('heartsContainer');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+
+        let currentFilter = 'all';
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // Populate category dropdown
+        achievementData.forEach(cat => {
+            const opt = document.createElement('option');
+            opt.value = cat.id;
+            opt.textContent = cat.label;
+            categoryFilter.appendChild(opt);
+        });
+
+        // Tabs
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const categoryView = document.getElementById('categoryView');
+        const chapterView = document.getElementById('chapterView');
+        const locationsView = document.getElementById('locationsView');
+        const collectView = document.getElementById('collectView');
+        const uniqueView = document.getElementById('uniqueView');
+        const questView = document.getElementById('questView');
+        const affinityView = document.getElementById('affinityView');
+        const heartsView = document.getElementById('heartsView');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                tabBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const view = btn.dataset.view;
+                categoryView.classList.remove('active');
+                chapterView.classList.remove('active');
+                locationsView.classList.remove('active');
+                collectView.classList.remove('active');
+                uniqueView.classList.remove('active');
+                questView.classList.remove('active');
+                affinityView.classList.remove('active');
+                heartsView.classList.remove('active');
+                const controls = document.getElementById('mainControls');
+                if (view === 'category' || view === 'chapter') {
+                    controls.style.display = 'flex';
+                } else {
+                    controls.style.display = 'none';
+                }
+                if (view === 'category') {
+                    categoryView.classList.add('active');
+                } else if (view === 'chapter') {
+                    chapterView.classList.add('active');
+                    renderChapterView();
+                } else if (view === 'locations') {
+                    locationsView.classList.add('active');
+                    renderLocations();
+                } else if (view === 'collect') {
+                    collectView.classList.add('active');
+                    renderCollect();
+                } else if (view === 'unique') {
+                    uniqueView.classList.add('active');
+                    renderUnique();
+                } else if (view === 'quests') {
+                    questView.classList.add('active');
+                    renderQuests();
+                } else if (view === 'affinity') {
+                    affinityView.classList.add('active');
+                    renderAffinity();
+                } else if (view === 'hearts') {
+                    heartsView.classList.add('active');
+                    renderHearts();
+                }
+            });
+        });
+
+        // ==============================================================
+        //  CATEGORY VIEW
+        // ==============================================================
+        function renderCategoryView() {
+            let html = '';
+            let totalVisible = 0;
+
+            achievementData.forEach(cat => {
+                if (currentCategory !== 'all' && currentCategory !== cat.id) return;
+
+                const filtered = cat.achievements.filter(a => {
+                    const matchSearch = a.name.toLowerCase().includes(currentSearch) ||
+                        a.desc.toLowerCase().includes(currentSearch);
+                    if (!matchSearch) return false;
+                    if (currentFilter === 'missable' && !a.missable) return false;
+                    if (currentFilter === 'safe' && a.missable) return false;
+                    return true;
+                });
+
+                if (filtered.length === 0) return;
+                totalVisible += filtered.length;
+
+                html += `<div class="category">`;
+                html += `<div class="category-header">
+                            <h2>${cat.label}</h2>
+                            <span class="count">${filtered.length} achievement${filtered.length > 1 ? 's' : ''}</span>
+                        </div>`;
+                html += `<div class="achievement-grid">`;
+
+                filtered.forEach(a => {
+                    const missable = a.missable || false;
+                    html += `<div class="achievement-card ${missable ? 'missable' : ''}">
+                                <div class="top-row">
+                                    <span class="name">${a.name}</span>
+                                    <span class="badge-wrap">
+                                        ${missable ? '<span class="missable-badge-sm">missable</span>' : '<span class="safe-badge-sm">safe</span>'}
+                                    </span>
+                                </div>
+                                <div class="description">${a.desc}</div>
+                                ${missable && a.by ? `<div class="complete-by">${a.by}</div>` : ''}
+                            </div>`;
+                });
+
+                html += `</div></div>`;
+            });
+
+            if (totalVisible === 0) {
+                html = `<div class="no-results">No achievements match your filters.</div>`;
+            }
+            categoryContainer.innerHTML = html;
+        }
+
+        // ==============================================================
+        //  CHAPTER VIEW
+        // ==============================================================
+        function renderChapterView() {
+            const search = currentSearch.toLowerCase().trim();
+            const filter = currentFilter;
+
+            const groups = {
+                1: [],
+                2: [],
+                3: [],
+                4: [],
+                5: [],
+                6: [],
+                7: [],
+                8: [],
+                9: [],
+                general: []
+            };
+
+            allAchievements.forEach(a => {
+                const matchSearch = a.name.toLowerCase().includes(search) ||
+                    a.desc.toLowerCase().includes(search);
+                if (!matchSearch) return;
+                if (filter === 'missable' && !a.missable) return;
+                if (filter === 'safe' && a.missable) return;
+                const ch = a.chapter || 'general';
+                if (groups[ch]) groups[ch].push(a);
+                else groups.general.push(a);
+            });
+
+            const chapterNames = {
+                1: 'Chapter 1 · Colony 9 & Tephra Cave',
+                2: 'Chapter 2 · Bionis\' Leg & Ether Mine',
+                3: 'Chapter 3 · Satorl Marsh & Makna Forest',
+                4: 'Chapter 4 · Eryth Sea, Alcamoth & High Entia Tomb',
+                5: 'Chapter 5 · Prison Island (first visit)',
+                6: 'Chapter 6 · Sword Valley & Galahad Fortress',
+                7: 'Chapter 7 · Mechonis Field & Central Factory',
+                8: 'Chapter 8 · Agniratha & Mechonis Core',
+                9: 'Chapter 9 · Fallen Arm, Bionis\' Interior & Finale',
+                general: '🔁 General · Can be done anytime'
+            };
+
+            const chapterDescs = {
+                1: 'From the start until you leave for the Bionis\' Leg. Complete all Colony 9 and Tephra Cave missables.',
+                2: 'Bionis\' Leg and Ether Mine. Refugee Camp timed quests disappear when you move them.',
+                3: 'Satorl Marsh and Makna Forest. Complete all quests and Unique Monsters before leaving.',
+                4: 'Eryth Sea, Alcamoth, and the High Entia Tomb. Many quests are timed here.',
+                5: 'First visit to Prison Island. Short chapter – complete everything before entering.',
+                6: 'Sword Valley and Galahad Fortress. These become inaccessible after the end of Mechonis Field.',
+                7: 'Mechonis Field and Central Factory. Complete missables before the Agniratha lockout.',
+                8: 'Agniratha and Mechonis Core. The final lockout approaches – finish all Mechonis content.',
+                9: 'Fallen Arm (remaining), Bionis\' Interior, second Prison Island, and the final boss. Complete all remaining missables.',
+                general: 'Combat, grind, and collection achievements not tied to a specific area.'
+            };
+
+            let html = '';
+            const order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'general'];
+
+            let total = 0;
+            order.forEach(ch => {
+                const items = groups[ch] || [];
+                if (items.length === 0) return;
+                total += items.length;
+                const missableInChapter = items.filter(a => a.missable);
+                html += `<div class="chapter-section">`;
+                html += `<div class="chapter-header">
+                            <h2>${chapterNames[ch] || ch}</h2>
+                            <span class="chapter-count">${items.length} achievement${items.length > 1 ? 's' : ''}</span>
+                            ${missableInChapter.length > 0 ? `<span class="chapter-warning">⚠️ ${missableInChapter.length} missable</span>` : ''}
+                        </div>`;
+                if (chapterDescs[ch]) {
+                    html += `<div class="chapter-desc">${chapterDescs[ch]}</div>`;
+                }
+                html += `<div class="achievement-grid">`;
+                items.forEach(a => {
+                    const missable = a.missable || false;
+                    html += `<div class="achievement-card ${missable ? 'missable' : ''}">
+                                <div class="top-row">
+                                    <span class="name">${a.name}</span>
+                                    <span class="badge-wrap">
+                                        ${missable ? '<span class="missable-badge-sm">missable</span>' : '<span class="safe-badge-sm">safe</span>'}
+                                    </span>
+                                </div>
+                                <div class="description">${a.desc}</div>
+                                ${missable && a.by ? `<div class="complete-by">${a.by}</div>` : ''}
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            if (total === 0) {
+                html = `<div class="no-results">No achievements match your filters.</div>`;
+            }
+            chapterContainer.innerHTML = html;
+        }
+
+        // ==============================================================
+        //  LOCATION CHECKLIST
+        // ==============================================================
+        const LOC_STORAGE = 'xenoblade_location_checklist';
+
+        function getLocState() {
+            try { return JSON.parse(localStorage.getItem(LOC_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveLocState(s) { localStorage.setItem(LOC_STORAGE, JSON.stringify(s)); }
+
+        function renderLocations() {
+            const state = getLocState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            locationData.forEach(area => {
+                const checkedCount = area.locations.filter(l => state[l.name] === true).length;
+                const totalCount = area.locations.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} found</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="loc-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="loc-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="checklist-list">`;
+                area.locations.forEach(loc => {
+                    const checked = state[loc.name] === true;
+                    const type = loc.type || 'Location';
+                    const typeClass = type === 'Landmark' ? 'loc-landmark' : 'loc-location';
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <input type="checkbox" data-name="${loc.name}" ${checked ? 'checked' : ''} />
+                                <span class="item-name">${loc.name}</span>
+                                <span class="loc-type ${typeClass}">${type}</span>
+                                <span class="item-desc">${loc.desc}</span>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                <span style="font-weight:600;">🗺️ Total Progress</span>
+                <span>${totalChecked} / ${totalAll} locations discovered</span>
+            </div>`;
+
+            locationContainer.innerHTML = overallHtml + html;
+
+            document.querySelectorAll('#locationContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const name = e.target.dataset.name;
+                    const s = getLocState();
+                    s[name] = e.target.checked;
+                    saveLocState(s);
+                    renderLocations();
+                });
+            });
+            document.querySelectorAll('.loc-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = locationData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getLocState();
+                    area.locations.forEach(l => s[l.name] = true);
+                    saveLocState(s);
+                    renderLocations();
+                });
+            });
+            document.querySelectorAll('.loc-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = locationData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getLocState();
+                    area.locations.forEach(l => s[l.name] = false);
+                    saveLocState(s);
+                    renderLocations();
+                });
+            });
+        }
+
+        document.getElementById('resetLocationProgress').addEventListener('click', () => {
+            if (confirm('Reset all location checkmarks?')) {
+                localStorage.removeItem(LOC_STORAGE);
+                renderLocations();
+            }
+        });
+
+        // ==============================================================
+        //  COLLECTOPAEDIA CHECKLIST
+        // ==============================================================
+        const COL_STORAGE = 'xenoblade_collect_checklist';
+
+        function getColState() {
+            try { return JSON.parse(localStorage.getItem(COL_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveColState(s) { localStorage.setItem(COL_STORAGE, JSON.stringify(s)); }
+
+        function renderCollect() {
+            const state = getColState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            collectData.forEach(area => {
+                const checkedCount = area.items.filter(l => state[l.name] === true).length;
+                const totalCount = area.items.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} collected</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="col-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="col-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="checklist-list">`;
+                area.items.forEach(item => {
+                    const checked = state[item.name] === true;
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <input type="checkbox" data-name="${item.name}" ${checked ? 'checked' : ''} />
+                                <span class="item-name">${item.name}</span>
+                                <span class="item-desc">${item.desc}</span>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                <span style="font-weight:600;">📦 Total Progress</span>
+                <span>${totalChecked} / ${totalAll} collectables registered</span>
+            </div>`;
+
+            collectContainer.innerHTML = overallHtml + html;
+
+            document.querySelectorAll('#collectContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const name = e.target.dataset.name;
+                    const s = getColState();
+                    s[name] = e.target.checked;
+                    saveColState(s);
+                    renderCollect();
+                });
+            });
+            document.querySelectorAll('.col-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = collectData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getColState();
+                    area.items.forEach(l => s[l.name] = true);
+                    saveColState(s);
+                    renderCollect();
+                });
+            });
+            document.querySelectorAll('.col-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = collectData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getColState();
+                    area.items.forEach(l => s[l.name] = false);
+                    saveColState(s);
+                    renderCollect();
+                });
+            });
+        }
+
+        document.getElementById('resetCollectProgress').addEventListener('click', () => {
+            if (confirm('Reset all Collectopaedia checkmarks?')) {
+                localStorage.removeItem(COL_STORAGE);
+                renderCollect();
+            }
+        });
+
+        // ==============================================================
+        //  UNIQUE MONSTER CHECKLIST
+        // ==============================================================
+        const UNQ_STORAGE = 'xenoblade_unique_checklist';
+
+        function getUnqState() {
+            try { return JSON.parse(localStorage.getItem(UNQ_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveUnqState(s) { localStorage.setItem(UNQ_STORAGE, JSON.stringify(s)); }
+
+        function renderUnique() {
+            const state = getUnqState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            uniqueData.forEach(area => {
+                const checkedCount = area.monsters.filter(m => state[m.name] === true).length;
+                const totalCount = area.monsters.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} defeated</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="unq-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="unq-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="checklist-list">`;
+                area.monsters.forEach(mon => {
+                    const checked = state[mon.name] === true;
+                    const superboss = mon.superboss || false;
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <input type="checkbox" data-name="${mon.name}" ${checked ? 'checked' : ''} />
+                                <span class="item-name">${mon.name}</span>
+                                ${superboss ? '<span class="superboss-tag">Superboss</span>' : ''}
+                                <span class="item-desc">${mon.desc}</span>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                <span style="font-weight:600;">⚔️ Total Progress</span>
+                <span>${totalChecked} / ${totalAll} Unique Monsters defeated</span>
+            </div>`;
+
+            uniqueContainer.innerHTML = overallHtml + html;
+
+            document.querySelectorAll('#uniqueContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const name = e.target.dataset.name;
+                    const s = getUnqState();
+                    s[name] = e.target.checked;
+                    saveUnqState(s);
+                    renderUnique();
+                });
+            });
+            document.querySelectorAll('.unq-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = uniqueData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getUnqState();
+                    area.monsters.forEach(m => s[m.name] = true);
+                    saveUnqState(s);
+                    renderUnique();
+                });
+            });
+            document.querySelectorAll('.unq-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = uniqueData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getUnqState();
+                    area.monsters.forEach(m => s[m.name] = false);
+                    saveUnqState(s);
+                    renderUnique();
+                });
+            });
+        }
+
+        document.getElementById('resetUniqueProgress').addEventListener('click', () => {
+            if (confirm('Reset all Unique Monster checkmarks?')) {
+                localStorage.removeItem(UNQ_STORAGE);
+                renderUnique();
+            }
+        });
+
+        // ==============================================================
+        //  QUEST CHECKLIST
+        // ==============================================================
+        const QST_STORAGE = 'xenoblade_quest_checklist';
+
+        function getQstState() {
+            try { return JSON.parse(localStorage.getItem(QST_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveQstState(s) { localStorage.setItem(QST_STORAGE, JSON.stringify(s)); }
+
+        function renderQuests() {
+            const state = getQstState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            questData.forEach(area => {
+                const checkedCount = area.quests.filter(q => state[q.name] === true).length;
+                const totalCount = area.quests.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} completed</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="qst-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="qst-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="checklist-list">`;
+                area.quests.forEach(q => {
+                    const checked = state[q.name] === true;
+                    const missable = q.missable || false;
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
+                                <span class="item-name">${q.name}</span>
+                                ${missable ? '<span class="missable-tag">missable</span>' : ''}
+                                ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
+                                <span class="item-desc">${q.desc}</span>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                <span style="font-weight:600;">📋 Total Progress</span>
+                <span>${totalChecked} / ${totalAll} quests completed</span>
+            </div>`;
+
+            questContainer.innerHTML = overallHtml + html;
+
+            document.querySelectorAll('#questContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const name = e.target.dataset.name;
+                    const s = getQstState();
+                    s[name] = e.target.checked;
+                    saveQstState(s);
+                    renderQuests();
+                });
+            });
+            document.querySelectorAll('.qst-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = questData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getQstState();
+                    area.quests.forEach(q => s[q.name] = true);
+                    saveQstState(s);
+                    renderQuests();
+                });
+            });
+            document.querySelectorAll('.qst-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = questData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getQstState();
+                    area.quests.forEach(q => s[q.name] = false);
+                    saveQstState(s);
+                    renderQuests();
+                });
+            });
+        }
+
+        document.getElementById('resetQuestProgress').addEventListener('click', () => {
+            if (confirm('Reset all quest checkmarks?')) {
+                localStorage.removeItem(QST_STORAGE);
+                renderQuests();
+            }
+        });
+
+        // ==============================================================
+        //  AFFINITY CHECKLIST
+        // ==============================================================
+        const AFF_STORAGE = 'xenoblade_affinity_checklist';
+
+        function getAffState() {
+            try { return JSON.parse(localStorage.getItem(AFF_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveAffState(s) { localStorage.setItem(AFF_STORAGE, JSON.stringify(s)); }
+
+        function renderAffinity() {
+            const state = getAffState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            affinityData.forEach(area => {
+                const levelNames = ['2 Stars', '3 Stars', '4 Stars', '5 Stars'];
+                let checkedCount = 0;
+                levelNames.forEach(level => {
+                    const key = `${area.area}-${level}`;
+                    if (state[key]) checkedCount++;
+                });
+                const totalCount = levelNames.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} milestones</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="aff-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="aff-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="affinity-tips">${area.tips}</div>`;
+                html += `<div class="checklist-list">`;
+                levelNames.forEach(level => {
+                    const key = `${area.area}-${level}`;
+                    const checked = state[key] === true;
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
+                                <span class="item-name">${level} ⭐</span>
+                                <span class="item-desc">Reach this star level for ${area.area}</span>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                <span style="font-weight:600;">⭐ Total Progress</span>
+                <span>${totalChecked} / ${totalAll} affinity milestones</span>
+            </div>`;
+
+            affinityContainer.innerHTML = overallHtml + html;
+
+            document.querySelectorAll('#affinityContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const key = e.target.dataset.key;
+                    const s = getAffState();
+                    s[key] = e.target.checked;
+                    saveAffState(s);
+                    renderAffinity();
+                });
+            });
+            document.querySelectorAll('.aff-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = affinityData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getAffState();
+                    ['2 Stars', '3 Stars', '4 Stars', '5 Stars'].forEach(level => {
+                        s[`${areaName}-${level}`] = true;
+                    });
+                    saveAffState(s);
+                    renderAffinity();
+                });
+            });
+            document.querySelectorAll('.aff-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = affinityData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getAffState();
+                    ['2 Stars', '3 Stars', '4 Stars', '5 Stars'].forEach(level => {
+                        s[`${areaName}-${level}`] = false;
+                    });
+                    saveAffState(s);
+                    renderAffinity();
+                });
+            });
+        }
+
+        document.getElementById('resetAffinityProgress').addEventListener('click', () => {
+            if (confirm('Reset all affinity checkmarks?')) {
+                localStorage.removeItem(AFF_STORAGE);
+                renderAffinity();
+            }
+        });
+
+        // ==============================================================
+        //  HEART-TO-HEART CHECKLIST
+        // ==============================================================
+        const HRT_STORAGE = 'xenoblade_hearts_checklist';
+
+        function getHrtState() {
+            try { return JSON.parse(localStorage.getItem(HRT_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveHrtState(s) { localStorage.setItem(HRT_STORAGE, JSON.stringify(s)); }
+
+        function renderHearts() {
+            const state = getHrtState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            heartData.forEach(area => {
+                const checkedCount = area.hearts.filter(h => state[h.name] === true).length;
+                const totalCount = area.hearts.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>💕 ${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} viewed</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="hrt-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="hrt-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="checklist-list">`;
+                area.hearts.forEach(h => {
+                    const checked = state[h.name] === true;
+                    const missable = h.missable || false;
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <input type="checkbox" data-name="${h.name}" ${checked ? 'checked' : ''} />
+                                <span class="item-name">${h.name}</span>
+                                ${missable ? '<span class="missable-tag">missable</span>' : ''}
+                                ${missable && h.by ? `<span class="complete-by-tag">⏳ ${h.by}</span>` : ''}
+                                <span class="affinity-tag">${h.affinity}</span>
+                                <span class="item-desc">${h.desc}</span>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                <span style="font-weight:600;">💕 Total Progress</span>
+                <span>${totalChecked} / ${totalAll} Heart-to-Hearts viewed</span>
+            </div>`;
+
+            heartsContainer.innerHTML = overallHtml + html;
+
+            document.querySelectorAll('#heartsContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const name = e.target.dataset.name;
+                    const s = getHrtState();
+                    s[name] = e.target.checked;
+                    saveHrtState(s);
+                    renderHearts();
+                });
+            });
+            document.querySelectorAll('.hrt-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = heartData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getHrtState();
+                    area.hearts.forEach(h => s[h.name] = true);
+                    saveHrtState(s);
+                    renderHearts();
+                });
+            });
+            document.querySelectorAll('.hrt-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = heartData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getHrtState();
+                    area.hearts.forEach(h => s[h.name] = false);
+                    saveHrtState(s);
+                    renderHearts();
+                });
+            });
+        }
+
+        document.getElementById('resetHeartsProgress').addEventListener('click', () => {
+            if (confirm('Reset all Heart-to-Heart checkmarks?')) {
+                localStorage.removeItem(HRT_STORAGE);
+                renderHearts();
+            }
+        });
+
+        // ==============================================================
+        //  EVENT LISTENERS
+        // ==============================================================
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.toLowerCase().trim();
+            renderCategoryView();
+            if (chapterView.classList.contains('active')) {
+                renderChapterView();
+            }
+        });
+
+        categoryFilter.addEventListener('change', (e) => {
+            currentCategory = e.target.value;
+            renderCategoryView();
+        });
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentFilter = btn.dataset.filter;
+                renderCategoryView();
+                if (chapterView.classList.contains('active')) {
+                    renderChapterView();
+                }
+            });
+        });
+
+        // Initial renders
+        renderCategoryView();
+        renderChapterView();
+        renderLocations();
+        renderCollect();
+        renderUnique();
+        renderQuests();
+        renderAffinity();
+        renderHearts();
+    </script>
+</body>
+</html>
