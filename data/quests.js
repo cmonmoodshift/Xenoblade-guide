@@ -15,22 +15,22 @@ const questData = [{
         { name: 'Challenge 4', desc: 'Defeat Wallslide Gwynry at Mag Mell Ruins, Tephra Cave.', missable: false },
 
         // === MONSTER QUESTS (grouped) ===
-        { name: 'Part 1', desc: 'Defeat 2 Ridge Antols near Anti-Air Battery 1.', missable: false, group: 'Monster Quest 1' },
-        { name: 'Part 2', desc: 'Defeat 1 Cute Brog near Anti-Air Battery 1.', missable: false, group: 'Monster Quest 1' },
-        { name: 'Part 3', desc: 'Defeat 3 Colony Krabbles at Cliff Lake.', missable: false, group: 'Monster Quest 1' },
+        { name: 'Monster Quest 1 - Part 1', desc: 'Defeat 2 Ridge Antols near Anti-Air Battery 1.', missable: false, group: 'Monster Quest 1' },
+        { name: 'Monster Quest 1 - Part 2', desc: 'Defeat 1 Cute Brog near Anti-Air Battery 1.', missable: false, group: 'Monster Quest 1' },
+        { name: 'Monster Quest 1 - Part 3', desc: 'Defeat 3 Colony Krabbles at Cliff Lake.', missable: false, group: 'Monster Quest 1' },
 
-        { name: 'Part 1', desc: 'Defeat 2 Lake Flamii on the beach.', missable: false, group: 'Monster Quest 2' },
-        { name: 'Part 2', desc: 'Defeat 1 Baby Armu on the beach.', missable: false, group: 'Monster Quest 2' },
-        { name: 'Part 3', desc: 'Defeat 2 Stone Krabbles at Agora Shore.', missable: false, group: 'Monster Quest 2' },
+        { name: 'Monster Quest 2 - Part 1', desc: 'Defeat 2 Lake Flamii on the beach.', missable: false, group: 'Monster Quest 2' },
+        { name: 'Monster Quest 2 - Part 2', desc: 'Defeat 1 Baby Armu on the beach.', missable: false, group: 'Monster Quest 2' },
+        { name: 'Monster Quest 2 - Part 3', desc: 'Defeat 2 Stone Krabbles at Agora Shore.', missable: false, group: 'Monster Quest 2' },
 
-        { name: 'Part 1', desc: 'Defeat 2 Hand Bunnits at Tephra Hill.', missable: false, group: 'Monster Quest 3' },
-        { name: 'Part 2', desc: 'Defeat 3 Beach Krabbles at Cliff Lake.', missable: false, group: 'Monster Quest 3' },
-        { name: 'Part 3', desc: 'Defeat 2 Wood Bunnits at Tephra Hill.', missable: false, group: 'Monster Quest 3' },
-        { name: 'Part 4', desc: 'Defeat 3 Light Skeeters on the beach below Tephra Cave.', missable: false, group: 'Monster Quest 3' },
+        { name: 'Monster Quest 3 - Part 1', desc: 'Defeat 2 Hand Bunnits at Tephra Hill.', missable: false, group: 'Monster Quest 3' },
+        { name: 'Monster Quest 3 - Part 2', desc: 'Defeat 3 Beach Krabbles at Cliff Lake.', missable: false, group: 'Monster Quest 3' },
+        { name: 'Monster Quest 3 - Part 3', desc: 'Defeat 2 Wood Bunnits at Tephra Hill.', missable: false, group: 'Monster Quest 3' },
+        { name: 'Monster Quest 3 - Part 4', desc: 'Defeat 3 Light Skeeters on the beach below Tephra Cave.', missable: false, group: 'Monster Quest 3' },
 
-        { name: 'Part 1', desc: 'Defeat 1 Willow Bunniv in Tephra Cave.', missable: false, group: 'Monster Quest 4' },
-        { name: 'Part 2', desc: 'Defeat 2 Singing Brogs in Tephra Cave.', missable: false, group: 'Monster Quest 4' },
-        { name: 'Part 3', desc: 'Defeat 3 Tephra Flamii in Tephra Cave.', missable: false, group: 'Monster Quest 4' },
+        { name: 'Monster Quest 4 - Part 1', desc: 'Defeat 1 Willow Bunniv in Tephra Cave.', missable: false, group: 'Monster Quest 4' },
+        { name: 'Monster Quest 4 - Part 2', desc: 'Defeat 2 Singing Brogs in Tephra Cave.', missable: false, group: 'Monster Quest 4' },
+        { name: 'Monster Quest 4 - Part 3', desc: 'Defeat 3 Tephra Flamii in Tephra Cave.', missable: false, group: 'Monster Quest 4' },
 
         // === MATERIAL QUESTS ===
         { name: 'Material Quest 1', desc: 'Collect 2 Small Shells in Colony 9.', missable: false },
