@@ -535,8 +535,8 @@
         }
         .checklist-item {
             display: flex;
-            align-items: baseline;
-            gap: 0.8rem;
+            flex-direction: column;
+            gap: 0.2rem;
             padding: 0.4rem 0.8rem;
             border-radius: 8px;
             background: #161b22;
@@ -553,6 +553,12 @@
         body.light-mode .checklist-item:hover {
             border-color: #d0d7de;
             background: #f6f8fa;
+        }
+        .checklist-item .item-row {
+            display: flex;
+            align-items: baseline;
+            gap: 0.8rem;
+            flex-wrap: wrap;
         }
         .checklist-item input[type="checkbox"] {
             flex-shrink: 0;
@@ -585,6 +591,13 @@
         body.light-mode .checklist-item .item-desc::before {
             color: #8b949e;
         }
+        .checklist-item .item-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-left: 2rem;
+            margin-top: 0.1rem;
+        }
         .checklist-item .missable-tag {
             background: #da3633;
             color: #fff;
@@ -592,14 +605,12 @@
             font-weight: 600;
             padding: 0.05rem 0.5rem;
             border-radius: 20px;
-            margin-left: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.2px;
         }
         .checklist-item .complete-by-tag {
             color: #f08888;
             font-size: 0.7rem;
-            margin-left: 0.3rem;
             background: #2d1b1b;
             padding: 0.05rem 0.4rem;
             border-radius: 10px;
@@ -611,7 +622,6 @@
         .checklist-item .affinity-tag {
             color: #d29922;
             font-size: 0.7rem;
-            margin-left: 0.3rem;
             background: #2d1b1b;
             padding: 0.05rem 0.4rem;
             border-radius: 10px;
@@ -629,7 +639,6 @@
             font-weight: 600;
             padding: 0.05rem 0.5rem;
             border-radius: 20px;
-            margin-left: 0.5rem;
             text-transform: uppercase;
             letter-spacing: 0.2px;
         }
@@ -638,13 +647,8 @@
             font-weight: 500;
             padding: 0.05rem 0.4rem;
             border-radius: 10px;
-            margin-left: 0.3rem;
         }
         .loc-landmark {
-            background: #1f6feb;
-            color: #fff;
-        }
-        body.light-mode .loc-landmark {
             background: #1f6feb;
             color: #fff;
         }
@@ -656,6 +660,47 @@
             background: #d0d7de;
             color: #57606a;
         }
+        /* Quest meta tags */
+        .prereq-tag {
+            background: #1f6feb;
+            color: #fff;
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        body.light-mode .prereq-tag {
+            background: #1f6feb;
+            color: #fff;
+        }
+        .giver-tag {
+            background: #b392f0;
+            color: #0d1117;
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        body.light-mode .giver-tag {
+            background: #b392f0;
+            color: #0d1117;
+        }
+        .loc-tag {
+            background: #56d364;
+            color: #0d1117;
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        body.light-mode .loc-tag {
+            background: #56d364;
+            color: #0d1117;
+        }
+
         .checklist-item.checked .item-name {
             color: #58a6ff;
             text-decoration: line-through;
@@ -682,6 +727,15 @@
             opacity: 0.5;
         }
         .checklist-item.checked .loc-type {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .prereq-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .giver-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .loc-tag {
             opacity: 0.5;
         }
         /* Hide checked items when setting is on */
@@ -881,9 +935,8 @@
                 padding: 0.4rem 1rem;
                 font-size: 0.85rem;
             }
-            .checklist-item {
+            .checklist-item .item-row {
                 flex-wrap: wrap;
-                gap: 0.2rem;
             }
             .checklist-item .item-desc {
                 margin-left: 0;
@@ -892,6 +945,9 @@
             }
             .checklist-item .item-desc::before {
                 content: "";
+            }
+            .checklist-item .item-meta {
+                margin-left: 0.5rem;
             }
             .checklist-area-header {
                 flex-direction: column;
@@ -1667,10 +1723,12 @@
                     const type = loc.type || 'Location';
                     const typeClass = type === 'Landmark' ? 'loc-landmark' : 'loc-location';
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
-                                <input type="checkbox" data-name="${loc.name}" ${checked ? 'checked' : ''} />
-                                <span class="item-name">${loc.name}</span>
-                                <span class="loc-type ${typeClass}">${type}</span>
-                                <span class="item-desc">${loc.desc}</span>
+                                <div class="item-row">
+                                    <input type="checkbox" data-name="${loc.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${loc.name}</span>
+                                    <span class="loc-type ${typeClass}">${type}</span>
+                                    <span class="item-desc">${loc.desc}</span>
+                                </div>
                             </div>`;
                 });
                 html += `</div></div>`;
@@ -1763,9 +1821,11 @@
                 area.items.forEach(item => {
                     const checked = state[item.name] === true;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
-                                <input type="checkbox" data-name="${item.name}" ${checked ? 'checked' : ''} />
-                                <span class="item-name">${item.name}</span>
-                                <span class="item-desc">${item.desc}</span>
+                                <div class="item-row">
+                                    <input type="checkbox" data-name="${item.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${item.name}</span>
+                                    <span class="item-desc">${item.desc}</span>
+                                </div>
                             </div>`;
                 });
                 html += `</div></div>`;
@@ -1859,10 +1919,12 @@
                     const checked = state[mon.name] === true;
                     const superboss = mon.superboss || false;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
-                                <input type="checkbox" data-name="${mon.name}" ${checked ? 'checked' : ''} />
-                                <span class="item-name">${mon.name}</span>
-                                ${superboss ? '<span class="superboss-tag">Superboss</span>' : ''}
-                                <span class="item-desc">${mon.desc}</span>
+                                <div class="item-row">
+                                    <input type="checkbox" data-name="${mon.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${mon.name}</span>
+                                    ${superboss ? '<span class="superboss-tag">Superboss</span>' : ''}
+                                    <span class="item-desc">${mon.desc}</span>
+                                </div>
                             </div>`;
                 });
                 html += `</div></div>`;
@@ -1918,7 +1980,7 @@
         });
 
         // ==============================================================
-        //  QUEST CHECKLIST (with grouping)
+        //  QUEST CHECKLIST (with grouping + giver/location/prereq)
         // ==============================================================
         const QST_STORAGE = 'xenoblade_quest_checklist';
 
@@ -1967,7 +2029,6 @@
 
                 // Render grouped quests
                 for (const [groupName, quests] of Object.entries(groups)) {
-                    const allChecked = quests.every(q => state[q.name] === true);
                     const checkedCountGroup = quests.filter(q => state[q.name] === true).length;
 
                     html += `<div class="quest-group-header">
@@ -1978,11 +2039,18 @@
                         const checked = state[q.name] === true;
                         const missable = q.missable || false;
                         html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
-                                    <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
-                                    <span class="item-name">${q.name}</span>
-                                    ${missable ? '<span class="missable-tag">missable</span>' : ''}
-                                    ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
-                                    <span class="item-desc">${q.desc}</span>
+                                    <div class="item-row">
+                                        <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
+                                        <span class="item-name">${q.name}</span>
+                                        ${missable ? '<span class="missable-tag">missable</span>' : ''}
+                                        ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
+                                        <span class="item-desc">${q.desc}</span>
+                                    </div>
+                                    <div class="item-meta">
+                                        ${q.prerequisite ? `<span class="prereq-tag">🔓 ${q.prerequisite}</span>` : ''}
+                                        ${q.giver ? `<span class="giver-tag">👤 ${q.giver}</span>` : ''}
+                                        ${q.giver_location ? `<span class="loc-tag">📍 ${q.giver_location}</span>` : ''}
+                                    </div>
                                 </div>`;
                     });
                 }
@@ -1992,11 +2060,18 @@
                     const checked = state[q.name] === true;
                     const missable = q.missable || false;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
-                                <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
-                                <span class="item-name">${q.name}</span>
-                                ${missable ? '<span class="missable-tag">missable</span>' : ''}
-                                ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
-                                <span class="item-desc">${q.desc}</span>
+                                <div class="item-row">
+                                    <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${q.name}</span>
+                                    ${missable ? '<span class="missable-tag">missable</span>' : ''}
+                                    ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
+                                    <span class="item-desc">${q.desc}</span>
+                                </div>
+                                <div class="item-meta">
+                                    ${q.prerequisite ? `<span class="prereq-tag">🔓 ${q.prerequisite}</span>` : ''}
+                                    ${q.giver ? `<span class="giver-tag">👤 ${q.giver}</span>` : ''}
+                                    ${q.giver_location ? `<span class="loc-tag">📍 ${q.giver_location}</span>` : ''}
+                                </div>
                             </div>`;
                 });
 
@@ -2098,9 +2173,11 @@
                     const key = `${area.area}-${level}`;
                     const checked = state[key] === true;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
-                                <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
-                                <span class="item-name">${level} ⭐</span>
-                                <span class="item-desc">Reach this star level for ${area.area}</span>
+                                <div class="item-row">
+                                    <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${level} ⭐</span>
+                                    <span class="item-desc">Reach this star level for ${area.area}</span>
+                                </div>
                             </div>`;
                 });
                 html += `</div></div>`;
@@ -2198,12 +2275,14 @@
                     const checked = state[h.name] === true;
                     const missable = h.missable || false;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
-                                <input type="checkbox" data-name="${h.name}" ${checked ? 'checked' : ''} />
-                                <span class="item-name">${h.name}</span>
-                                ${missable ? '<span class="missable-tag">missable</span>' : ''}
-                                ${missable && h.by ? `<span class="complete-by-tag">⏳ ${h.by}</span>` : ''}
-                                <span class="affinity-tag">${h.affinity}</span>
-                                <span class="item-desc">${h.desc}</span>
+                                <div class="item-row">
+                                    <input type="checkbox" data-name="${h.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${h.name}</span>
+                                    ${missable ? '<span class="missable-tag">missable</span>' : ''}
+                                    ${missable && h.by ? `<span class="complete-by-tag">⏳ ${h.by}</span>` : ''}
+                                    <span class="affinity-tag">${h.affinity}</span>
+                                    <span class="item-desc">${h.desc}</span>
+                                </div>
                             </div>`;
                 });
                 html += `</div></div>`;
