@@ -121,7 +121,7 @@
         /* ----- TABS ----- */
         .tab-bar {
             display: flex;
-            gap: 0.5rem;
+            gap: 0.3rem;
             margin-bottom: 1.8rem;
             border-bottom: 1px solid #2d333b;
             padding-bottom: 0.5rem;
@@ -135,12 +135,13 @@
             background: transparent;
             border: none;
             color: #8b949e;
-            padding: 0.5rem 1.8rem;
-            font-size: 1rem;
+            padding: 0.4rem 1.2rem;
+            font-size: 0.9rem;
             font-weight: 600;
             cursor: pointer;
             border-radius: 30px;
             transition: 0.15s;
+            white-space: nowrap;
         }
         body.light-mode .tab-btn {
             color: #57606a;
@@ -700,6 +701,19 @@
             background: #56d364;
             color: #0d1117;
         }
+        .level-tag {
+            background: #30363d;
+            color: #8b949e;
+            font-size: 0.6rem;
+            font-weight: 500;
+            padding: 0.05rem 0.5rem;
+            border-radius: 12px;
+            white-space: nowrap;
+        }
+        body.light-mode .level-tag {
+            background: #d0d7de;
+            color: #57606a;
+        }
 
         .checklist-item.checked .item-name {
             color: #58a6ff;
@@ -736,6 +750,9 @@
             opacity: 0.5;
         }
         .checklist-item.checked .loc-tag {
+            opacity: 0.5;
+        }
+        .checklist-item.checked .level-tag {
             opacity: 0.5;
         }
         /* Hide checked items when setting is on */
@@ -932,8 +949,8 @@
                 justify-content: center;
             }
             .tab-btn {
-                padding: 0.4rem 1rem;
-                font-size: 0.85rem;
+                padding: 0.3rem 0.8rem;
+                font-size: 0.8rem;
             }
             .checklist-item .item-row {
                 flex-wrap: wrap;
@@ -1032,6 +1049,7 @@
             <button class="tab-btn" data-view="quests">📋 Quests</button>
             <button class="tab-btn" data-view="affinity">⭐ Affinity</button>
             <button class="tab-btn" data-view="hearts">💕 Hearts</button>
+            <button class="tab-btn" data-view="monsters">🐾 Monsters</button>
             <button class="tab-btn" data-view="settings">⚙️ Settings</button>
         </div>
 
@@ -1102,6 +1120,15 @@
             <div id="heartsContainer"></div>
         </div>
 
+        <!-- VIEW: MONSTERS -->
+        <div id="monstersView" class="view-container">
+            <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+                <span style="color:#8b949e;font-size:0.9rem;">Check off monsters as you defeat them — progress is saved in your browser.</span>
+                <button id="resetMonsterProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
+            </div>
+            <div id="monsterContainer"></div>
+        </div>
+
         <!-- VIEW: SETTINGS -->
         <div id="settingsView" class="view-container">
             <div class="settings-section">
@@ -1146,6 +1173,7 @@
     <script src="data/quests.js"></script>
     <script src="data/affinity.js"></script>
     <script src="data/heart_to_hearts.js"></script>
+    <script src="data/monsters.js"></script>
 
     <!-- ========== RENDER ENGINE ========== -->
     <script>
@@ -1190,6 +1218,7 @@
             renderQuests();
             renderAffinity();
             renderHearts();
+            renderMonsters();
         }
 
         // --------------------------------------------------------------
@@ -1439,6 +1468,7 @@
         const questContainer = document.getElementById('questContainer');
         const affinityContainer = document.getElementById('affinityContainer');
         const heartsContainer = document.getElementById('heartsContainer');
+        const monsterContainer = document.getElementById('monsterContainer');
         const searchInput = document.getElementById('searchInput');
         const categoryFilter = document.getElementById('categoryFilter');
         const filterButtons = document.querySelectorAll('.filter-btn');
@@ -1465,6 +1495,7 @@
         const questView = document.getElementById('questView');
         const affinityView = document.getElementById('affinityView');
         const heartsView = document.getElementById('heartsView');
+        const monstersView = document.getElementById('monstersView');
         const settingsView = document.getElementById('settingsView');
 
         tabBtns.forEach(btn => {
@@ -1480,6 +1511,7 @@
                 questView.classList.remove('active');
                 affinityView.classList.remove('active');
                 heartsView.classList.remove('active');
+                monstersView.classList.remove('active');
                 settingsView.classList.remove('active');
                 const controls = document.getElementById('mainControls');
                 if (view === 'category' || view === 'chapter') {
@@ -1510,6 +1542,9 @@
                 } else if (view === 'hearts') {
                     heartsView.classList.add('active');
                     renderHearts();
+                } else if (view === 'monsters') {
+                    monstersView.classList.add('active');
+                    renderMonsters();
                 } else if (view === 'settings') {
                     settingsView.classList.add('active');
                 }
@@ -2015,7 +2050,6 @@
                         </div>`;
                 html += `<div class="checklist-list">`;
 
-                // --- GROUPING LOGIC ---
                 const groups = {};
                 const standalone = [];
                 area.quests.forEach(q => {
@@ -2027,7 +2061,6 @@
                     }
                 });
 
-                // Render grouped quests
                 for (const [groupName, quests] of Object.entries(groups)) {
                     const checkedCountGroup = quests.filter(q => state[q.name] === true).length;
 
@@ -2055,7 +2088,6 @@
                     });
                 }
 
-                // Render standalone quests
                 standalone.forEach(q => {
                     const checked = state[q.name] === true;
                     const missable = q.missable || false;
@@ -2087,7 +2119,6 @@
             questContainer.innerHTML = overallHtml + html;
             applyHideCheckedToContainer('questContainer');
 
-            // Event listeners
             document.querySelectorAll('#questContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
                     const name = e.target.dataset.name;
@@ -2338,6 +2369,109 @@
         });
 
         // ==============================================================
+        //  MONSTER CHECKLIST
+        // ==============================================================
+        const MON_STORAGE = 'xenoblade_monster_checklist';
+
+        function getMonState() {
+            try { return JSON.parse(localStorage.getItem(MON_STORAGE)) || {}; } catch (e) { return {}; }
+        }
+
+        function saveMonState(s) { localStorage.setItem(MON_STORAGE, JSON.stringify(s)); }
+
+        function renderMonsters() {
+            const state = getMonState();
+            let html = '';
+            let totalAll = 0,
+                totalChecked = 0;
+
+            monsterData.forEach(area => {
+                const checkedCount = area.monsters.filter(m => state[m.name] === true).length;
+                const totalCount = area.monsters.length;
+                totalAll += totalCount;
+                totalChecked += checkedCount;
+
+                html += `<div class="checklist-area">`;
+                html += `<div class="checklist-area-header">
+                            <h2>${area.area}</h2>
+                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                                <span class="area-stats">${checkedCount} / ${totalCount} defeated</span>
+                                <div class="checklist-area-actions">
+                                    <button data-area="${area.area}" class="mon-check-all">✓ All</button>
+                                    <button data-area="${area.area}" class="mon-uncheck-all">✗ None</button>
+                                </div>
+                            </div>
+                        </div>`;
+                html += `<div class="checklist-list">`;
+                area.monsters.forEach(mon => {
+                    const checked = state[mon.name] === true;
+                    const locStr = mon.locations ? mon.locations.join(' • ') : 'Unknown';
+                    const dropsStr = mon.drops ? mon.drops.join(', ') : 'None';
+                    html += `<div class="checklist-item ${checked ? 'checked' : ''}">
+                                <div class="item-row">
+                                    <input type="checkbox" data-name="${mon.name}" ${checked ? 'checked' : ''} />
+                                    <span class="item-name">${mon.name}</span>
+                                    <span class="level-tag">Lv. ${mon.level}</span>
+                                    <span class="item-desc">${locStr}</span>
+                                </div>
+                                <div class="item-meta">
+                                    <span class="loc-tag">📦 ${dropsStr}</span>
+                                </div>
+                            </div>`;
+                });
+                html += `</div></div>`;
+            });
+
+            const overallHtml =
+                `<div style="margin-bottom:1.5rem;padding:0.8rem 1.2rem;background:#161b22;border-radius:12px;border:1px solid #30363d;display:flex;justify-content:space-between;flex-wrap:wrap;gap:0.5rem;">
+                    <span style="font-weight:600;">🐾 Total Progress</span>
+                    <span>${totalChecked} / ${totalAll} monsters defeated</span>
+                </div>`;
+
+            monsterContainer.innerHTML = overallHtml + html;
+            applyHideCheckedToContainer('monsterContainer');
+
+            document.querySelectorAll('#monsterContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const name = e.target.dataset.name;
+                    const s = getMonState();
+                    s[name] = e.target.checked;
+                    saveMonState(s);
+                    renderMonsters();
+                });
+            });
+            document.querySelectorAll('.mon-check-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = monsterData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getMonState();
+                    area.monsters.forEach(m => s[m.name] = true);
+                    saveMonState(s);
+                    renderMonsters();
+                });
+            });
+            document.querySelectorAll('.mon-uncheck-all').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const areaName = e.target.dataset.area;
+                    const area = monsterData.find(a => a.area === areaName);
+                    if (!area) return;
+                    const s = getMonState();
+                    area.monsters.forEach(m => s[m.name] = false);
+                    saveMonState(s);
+                    renderMonsters();
+                });
+            });
+        }
+
+        document.getElementById('resetMonsterProgress').addEventListener('click', () => {
+            if (confirm('Reset all monster checkmarks?')) {
+                localStorage.removeItem(MON_STORAGE);
+                renderMonsters();
+            }
+        });
+
+        // ==============================================================
         //  SETTINGS EVENT LISTENERS
         // ==============================================================
         const themeToggle = document.getElementById('themeToggle');
@@ -2359,6 +2493,7 @@
             renderQuests();
             renderAffinity();
             renderHearts();
+            renderMonsters();
         });
 
         // ==============================================================
@@ -2404,6 +2539,7 @@
         renderQuests();
         renderAffinity();
         renderHearts();
+        renderMonsters();
     </script>
 </body>
 </html>
