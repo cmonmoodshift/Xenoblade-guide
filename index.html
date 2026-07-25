@@ -573,9 +573,18 @@
             font-weight: 500;
             color: #f0f6fc;
             font-size: 0.95rem;
+            cursor: pointer;
+            transition: color 0.15s;
+        }
+        .checklist-item .item-name:hover {
+            color: #58a6ff;
+            text-decoration: underline;
         }
         body.light-mode .checklist-item .item-name {
             color: #1f2328;
+        }
+        body.light-mode .checklist-item .item-name:hover {
+            color: #1f6feb;
         }
         .checklist-item .item-desc {
             color: #8b949e;
@@ -720,6 +729,9 @@
             text-decoration: line-through;
             text-decoration-color: #58a6ff;
             opacity: 0.7;
+        }
+        .checklist-item.checked .item-name:hover {
+            text-decoration: line-through underline;
         }
         body.light-mode .checklist-item.checked .item-name {
             color: #1f6feb;
@@ -920,6 +932,20 @@
             border-left-color: #d0d7de;
         }
 
+        /* Clickable quest name indicator */
+        .quest-wiki-link {
+            cursor: pointer;
+            color: inherit;
+            text-decoration: none;
+        }
+        .quest-wiki-link:hover {
+            color: #58a6ff;
+            text-decoration: underline;
+        }
+        body.light-mode .quest-wiki-link:hover {
+            color: #1f6feb;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 1rem 0.8rem;
@@ -1100,7 +1126,7 @@
         </div>
         <div id="questView" class="view-container">
             <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
-                <span style="color:#8b949e;font-size:0.9rem;">Check off quests as you complete them — progress is saved in your browser.</span>
+                <span style="color:#8b949e;font-size:0.9rem;">Check off quests as you complete them — progress is saved in your browser. <strong>Click a quest name</strong> to open its wiki page.</span>
                 <button id="resetQuestProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
             </div>
             <div id="questContainer"></div>
@@ -1219,6 +1245,23 @@
             renderAffinity();
             renderHearts();
             renderMonsters();
+        }
+
+        // --------------------------------------------------------------
+        //  HELPER: Open Quest Wiki Page
+        // --------------------------------------------------------------
+        function openQuestWiki(questName) {
+            // Build a URL for the Xenoblade Wiki (Fandom)
+            // Example: https://xenoblade.fandom.com/wiki/Monster_Quest_1
+            // Replace spaces with underscores, encode special chars
+            const base = 'https://xenoblade.fandom.com/wiki/';
+            // Remove "Part X" or similar? We'll keep full name.
+            // But we may need to strip " - " or "Part" to match wiki page names.
+            // The wiki often has pages without the "Part" suffix, but we'll try the full name first.
+            // If the page doesn't exist, the user can search.
+            const encoded = encodeURIComponent(questName.replace(/ /g, '_'));
+            const url = base + encoded;
+            window.open(url, '_blank');
         }
 
         // --------------------------------------------------------------
@@ -2015,7 +2058,7 @@
         });
 
         // ==============================================================
-        //  QUEST CHECKLIST (with grouping + giver/location/prereq)
+        //  QUEST CHECKLIST (with grouping + giver/location/prereq + wiki links)
         // ==============================================================
         const QST_STORAGE = 'xenoblade_quest_checklist';
 
@@ -2071,10 +2114,12 @@
                     quests.forEach(q => {
                         const checked = state[q.name] === true;
                         const missable = q.missable || false;
+                        // Create clickable name
+                        const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
                         html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
                                     <div class="item-row">
                                         <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
-                                        <span class="item-name">${q.name}</span>
+                                        ${nameSpan}
                                         ${missable ? '<span class="missable-tag">missable</span>' : ''}
                                         ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
                                         <span class="item-desc">${q.desc}</span>
@@ -2091,10 +2136,11 @@
                 standalone.forEach(q => {
                     const checked = state[q.name] === true;
                     const missable = q.missable || false;
+                    const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
                                 <div class="item-row">
                                     <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
-                                    <span class="item-name">${q.name}</span>
+                                    ${nameSpan}
                                     ${missable ? '<span class="missable-tag">missable</span>' : ''}
                                     ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
                                     <span class="item-desc">${q.desc}</span>
