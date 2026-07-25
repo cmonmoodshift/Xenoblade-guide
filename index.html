@@ -1248,18 +1248,21 @@
         }
 
         // --------------------------------------------------------------
-        //  HELPER: Open Quest Wiki Page
+        //  HELPER: Open Quest Wiki Page (Xeno Series Wiki)
         // --------------------------------------------------------------
         function openQuestWiki(questName) {
-            // Build a URL for the Xenoblade Wiki (Fandom)
-            // Example: https://xenoblade.fandom.com/wiki/Monster_Quest_1
-            // Replace spaces with underscores, encode special chars
-            const base = 'https://xenoblade.fandom.com/wiki/';
-            // Remove "Part X" or similar? We'll keep full name.
-            // But we may need to strip " - " or "Part" to match wiki page names.
-            // The wiki often has pages without the "Part" suffix, but we'll try the full name first.
-            // If the page doesn't exist, the user can search.
-            const encoded = encodeURIComponent(questName.replace(/ /g, '_'));
+            // Build a URL for the Xeno Series Wiki
+            // Example: https://xenoserieswiki.org/wiki/Mementos_of_a_Lost_Son
+            const base = 'https://xenoserieswiki.org/wiki/';
+            // Clean up the quest name for the wiki URL
+            // Remove " - " and "Part" suffixes for cleaner URLs, but keep the main name
+            let cleanName = questName;
+            // Remove " - Part X" or " - Part X (Area)" patterns
+            cleanName = cleanName.replace(/ - Part \d+( \(.+\))?$/, '');
+            // Remove " (Area)" suffixes
+            cleanName = cleanName.replace(/ \(.+\)$/, '');
+            // Encode for URL
+            const encoded = encodeURIComponent(cleanName.replace(/ /g, '_'));
             const url = base + encoded;
             window.open(url, '_blank');
         }
@@ -2114,7 +2117,7 @@
                     quests.forEach(q => {
                         const checked = state[q.name] === true;
                         const missable = q.missable || false;
-                        // Create clickable name
+                        // Create clickable name with Xeno Series Wiki link
                         const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
                         html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
                                     <div class="item-row">
