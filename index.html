@@ -1251,20 +1251,22 @@
         //  HELPER: Open Quest Wiki Page (Xeno Series Wiki)
         // --------------------------------------------------------------
         function openQuestWiki(questName) {
-            // Build a URL for the Xeno Series Wiki
-            // Example: https://xenoserieswiki.org/wiki/Mementos_of_a_Lost_Son
+            // Find the quest in the questData to get its exact wiki page name
+            let wikiPage = null;
+            for (const area of questData) {
+                for (const q of area.quests) {
+                    if (q.name === questName && q.wiki) {
+                        wikiPage = q.wiki;
+                        break;
+                    }
+                }
+                if (wikiPage) break;
+            }
+
+            // If we found a wiki page, use it; otherwise fallback to generated name
             const base = 'https://xenoserieswiki.org/wiki/';
-            // Clean up the quest name for the wiki URL
-            // Remove " - " and "Part" suffixes for cleaner URLs, but keep the main name
-            let cleanName = questName;
-            // Remove " - Part X" or " - Part X (Area)" patterns
-            cleanName = cleanName.replace(/ - Part \d+( \(.+\))?$/, '');
-            // Remove " (Area)" suffixes
-            cleanName = cleanName.replace(/ \(.+\)$/, '');
-            // Encode for URL
-            const encoded = encodeURIComponent(cleanName.replace(/ /g, '_'));
-            const url = base + encoded;
-            window.open(url, '_blank');
+            const page = wikiPage || encodeURIComponent(questName.replace(/ /g, '_'));
+            window.open(base + page, '_blank');
         }
 
         // --------------------------------------------------------------
@@ -2117,7 +2119,6 @@
                     quests.forEach(q => {
                         const checked = state[q.name] === true;
                         const missable = q.missable || false;
-                        // Create clickable name with Xeno Series Wiki link
                         const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
                         html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
                                     <div class="item-row">
