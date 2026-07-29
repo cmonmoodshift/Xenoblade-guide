@@ -2064,6 +2064,7 @@
 
         // ==============================================================
         //  QUEST CHECKLIST (with grouping + giver/location/prereq + wiki links)
+        //  FIXED: Uses composite keys (area + '||' + name) to prevent cross-area conflicts
         // ==============================================================
         const QST_STORAGE = 'xenoblade_quest_checklist';
 
@@ -2080,7 +2081,8 @@
                 totalChecked = 0;
 
             questData.forEach(area => {
-                const checkedCount = area.quests.filter(q => state[q.name] === true).length;
+                // Use composite keys: area + '||' + questName
+                const checkedCount = area.quests.filter(q => state[area.area + '||' + q.name] === true).length;
                 const totalCount = area.quests.length;
                 totalAll += totalCount;
                 totalChecked += checkedCount;
@@ -2109,20 +2111,22 @@
                     }
                 });
 
+                // Render grouped quests
                 for (const [groupName, quests] of Object.entries(groups)) {
-                    const checkedCountGroup = quests.filter(q => state[q.name] === true).length;
+                    const checkedCountGroup = quests.filter(q => state[area.area + '||' + q.name] === true).length;
 
                     html += `<div class="quest-group-header">
                                 <span class="group-name">📋 ${groupName}</span>
                                 <span class="group-stats">${checkedCountGroup} / ${quests.length}</span>
                             </div>`;
                     quests.forEach(q => {
-                        const checked = state[q.name] === true;
+                        const key = area.area + '||' + q.name;
+                        const checked = state[key] === true;
                         const missable = q.missable || false;
                         const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
                         html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
                                     <div class="item-row">
-                                        <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
+                                        <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
                                         ${nameSpan}
                                         ${missable ? '<span class="missable-tag">missable</span>' : ''}
                                         ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
@@ -2137,13 +2141,15 @@
                     });
                 }
 
+                // Render standalone quests
                 standalone.forEach(q => {
-                    const checked = state[q.name] === true;
+                    const key = area.area + '||' + q.name;
+                    const checked = state[key] === true;
                     const missable = q.missable || false;
                     const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
                                 <div class="item-row">
-                                    <input type="checkbox" data-name="${q.name}" ${checked ? 'checked' : ''} />
+                                    <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
                                     ${nameSpan}
                                     ${missable ? '<span class="missable-tag">missable</span>' : ''}
                                     ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
@@ -2169,11 +2175,12 @@
             questContainer.innerHTML = overallHtml + html;
             applyHideCheckedToContainer('questContainer');
 
+            // Event listeners
             document.querySelectorAll('#questContainer input[type="checkbox"]').forEach(cb => {
                 cb.addEventListener('change', (e) => {
-                    const name = e.target.dataset.name;
+                    const key = e.target.dataset.key;
                     const s = getQstState();
-                    s[name] = e.target.checked;
+                    s[key] = e.target.checked;
                     saveQstState(s);
                     renderQuests();
                 });
@@ -2184,7 +2191,7 @@
                     const area = questData.find(a => a.area === areaName);
                     if (!area) return;
                     const s = getQstState();
-                    area.quests.forEach(q => s[q.name] = true);
+                    area.quests.forEach(q => s[areaName + '||' + q.name] = true);
                     saveQstState(s);
                     renderQuests();
                 });
@@ -2195,7 +2202,7 @@
                     const area = questData.find(a => a.area === areaName);
                     if (!area) return;
                     const s = getQstState();
-                    area.quests.forEach(q => s[q.name] = false);
+                    area.quests.forEach(q => s[areaName + '||' + q.name] = false);
                     saveQstState(s);
                     renderQuests();
                 });
