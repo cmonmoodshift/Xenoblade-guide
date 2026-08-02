@@ -485,6 +485,8 @@
             padding-bottom: 0.4rem;
             margin-bottom: 1rem;
             transition: border-color 0.3s;
+            cursor: pointer;
+            user-select: none;
         }
         body.light-mode .checklist-area-header {
             border-color: #d0d7de;
@@ -493,6 +495,7 @@
             font-size: 1.4rem;
             font-weight: 600;
             color: #f0e6d0;
+            margin: 0;
         }
         body.light-mode .checklist-area-header h2 {
             color: #2d333b;
@@ -504,11 +507,25 @@
         body.light-mode .checklist-area-header .area-stats {
             color: #57606a;
         }
-        .checklist-area-actions {
+        .checklist-area-header .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .checklist-area-header .toggle-icon {
+            font-size: 0.8rem;
+            color: #8b949e;
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+        body.light-mode .checklist-area-header .toggle-icon {
+            color: #57606a;
+        }
+        .checklist-area-header .checklist-area-actions {
             display: flex;
             gap: 0.5rem;
         }
-        .checklist-area-actions button {
+        .checklist-area-header .checklist-area-actions button {
             background: transparent;
             border: 1px solid #30363d;
             color: #8b949e;
@@ -518,17 +535,30 @@
             font-size: 0.75rem;
             transition: 0.15s;
         }
-        body.light-mode .checklist-area-actions button {
+        body.light-mode .checklist-area-header .checklist-area-actions button {
             border-color: #d0d7de;
             color: #57606a;
         }
-        .checklist-area-actions button:hover {
+        .checklist-area-header .checklist-area-actions button:hover {
             border-color: #58a6ff;
             color: #e6edf3;
         }
-        body.light-mode .checklist-area-actions button:hover {
+        body.light-mode .checklist-area-header .checklist-area-actions button:hover {
             color: #1f2328;
         }
+
+        .checklist-area-header .area-stats {
+            margin-right: 0.5rem;
+        }
+
+        /* Collapsed state for quest areas */
+        .checklist-area.area-collapsed .checklist-list {
+            display: none;
+        }
+        .checklist-area.area-collapsed .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
         .checklist-list {
             display: flex;
             flex-direction: column;
@@ -996,7 +1026,8 @@
                 flex-direction: column;
                 align-items: stretch;
             }
-            .checklist-area-actions {
+            .checklist-area-header .header-right {
+                width: 100%;
                 justify-content: flex-start;
             }
             .settings-section {
@@ -1126,7 +1157,7 @@
         </div>
         <div id="questView" class="view-container">
             <div style="margin-bottom:1.5rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
-                <span style="color:#8b949e;font-size:0.9rem;">Check off quests as you complete them — progress is saved in your browser. <strong>Click a quest name</strong> to open its wiki page.</span>
+                <span style="color:#8b949e;font-size:0.9rem;">Check off quests as you complete them — progress is saved in your browser. <strong>Click a quest name</strong> to open its wiki page. <strong>Click an area name</strong> to collapse/expand it.</span>
                 <button id="resetQuestProgress" style="background:#2d1b1b;border:1px solid #4a2a2a;color:#f08888;padding:0.3rem 1rem;border-radius:20px;cursor:pointer;font-size:0.8rem;">Reset all progress</button>
             </div>
             <div id="questContainer"></div>
@@ -2065,6 +2096,7 @@
         // ==============================================================
         //  QUEST CHECKLIST (with grouping + giver/location/prereq + wiki links)
         //  FIXED: Uses composite keys (area + '||' + name) to prevent cross-area conflicts
+        //  NEW: Expand/collapse support with localStorage persistence
         // ==============================================================
         const QST_STORAGE = 'xenoblade_quest_checklist';
 
@@ -2087,15 +2119,22 @@
                 totalAll += totalCount;
                 totalChecked += checkedCount;
 
-                html += `<div class="checklist-area">`;
-                html += `<div class="checklist-area-header">
+                // Check collapsed state from localStorage
+                const collapseKey = 'quest_area_' + area.area;
+                const isCollapsed = localStorage.getItem(collapseKey) === 'true';
+                const collapsedClass = isCollapsed ? 'area-collapsed' : '';
+                const iconText = isCollapsed ? '▶' : '▼';
+
+                html += `<div class="checklist-area ${collapsedClass}">`;
+                html += `<div class="checklist-area-header" data-area="${area.area}">
                             <h2>${area.area}</h2>
-                            <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;">
+                            <div class="header-right">
                                 <span class="area-stats">${checkedCount} / ${totalCount} completed</span>
                                 <div class="checklist-area-actions">
                                     <button data-area="${area.area}" class="qst-check-all">✓ All</button>
                                     <button data-area="${area.area}" class="qst-uncheck-all">✗ None</button>
                                 </div>
+                                <span class="toggle-icon">${iconText}</span>
                             </div>
                         </div>`;
                 html += `<div class="checklist-list">`;
@@ -2175,18 +2214,37 @@
             questContainer.innerHTML = overallHtml + html;
             applyHideCheckedToContainer('questContainer');
 
-            // Event listeners
-            document.querySelectorAll('#questContainer input[type="checkbox"]').forEach(cb => {
-                cb.addEventListener('change', (e) => {
-                    const key = e.target.dataset.key;
-                    const s = getQstState();
-                    s[key] = e.target.checked;
-                    saveQstState(s);
-                    renderQuests();
+            // --- ATTACH EVENT LISTENERS FOR EXPAND/COLLAPSE ---
+            document.querySelectorAll('#questContainer .checklist-area-header').forEach(header => {
+                // Remove any existing listeners by cloning? We'll just use a new listener.
+                // But we need to make sure we don't attach multiple listeners.
+                // We'll use a flag or just attach it once.
+                // Since renderQuests is called on filter/search, we need to clean up old listeners.
+                // The easiest way is to use a new listener each time, but they might stack.
+                // To prevent stacking, we'll use a specific handler.
+                // Actually, since we are replacing the innerHTML, old listeners are gone.
+                header.addEventListener('click', function(e) {
+                    // Ignore clicks on buttons inside the header
+                    if (e.target.closest('button')) {
+                        return;
+                    }
+                    const area = this.closest('.checklist-area');
+                    const areaName = this.dataset.area;
+                    const key = 'quest_area_' + areaName;
+                    const isCollapsed = area.classList.toggle('area-collapsed');
+                    localStorage.setItem(key, String(isCollapsed));
+                    // Update the icon
+                    const icon = this.querySelector('.toggle-icon');
+                    if (icon) {
+                        icon.textContent = isCollapsed ? '▶' : '▼';
+                    }
                 });
             });
-            document.querySelectorAll('.qst-check-all').forEach(btn => {
+
+            // --- ATTACH BUTTON LISTENERS (All/None) ---
+            document.querySelectorAll('#questContainer .qst-check-all').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent header toggle
                     const areaName = e.target.dataset.area;
                     const area = questData.find(a => a.area === areaName);
                     if (!area) return;
@@ -2196,8 +2254,9 @@
                     renderQuests();
                 });
             });
-            document.querySelectorAll('.qst-uncheck-all').forEach(btn => {
+            document.querySelectorAll('#questContainer .qst-uncheck-all').forEach(btn => {
                 btn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent header toggle
                     const areaName = e.target.dataset.area;
                     const area = questData.find(a => a.area === areaName);
                     if (!area) return;
@@ -2207,10 +2266,21 @@
                     renderQuests();
                 });
             });
+
+            // --- ATTACH CHECKBOX LISTENERS ---
+            document.querySelectorAll('#questContainer input[type="checkbox"]').forEach(cb => {
+                cb.addEventListener('change', (e) => {
+                    const key = e.target.dataset.key;
+                    const s = getQstState();
+                    s[key] = e.target.checked;
+                    saveQstState(s);
+                    renderQuests();
+                });
+            });
         }
 
         document.getElementById('resetQuestProgress').addEventListener('click', () => {
-            if (confirm('Reset all quest checkmarks?')) {
+            if (confirm('Reset all quest checkmarks? This will NOT reset collapsed/expanded states.')) {
                 localStorage.removeItem(QST_STORAGE);
                 renderQuests();
             }
