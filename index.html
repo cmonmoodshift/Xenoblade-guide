@@ -605,6 +605,9 @@
             font-size: 0.95rem;
             cursor: pointer;
             transition: color 0.15s;
+            text-decoration: none;
+            background: transparent;
+            border: none;
         }
         .checklist-item .item-name:hover {
             color: #58a6ff;
@@ -962,20 +965,6 @@
             border-left-color: #d0d7de;
         }
 
-        /* Clickable quest name indicator */
-        .quest-wiki-link {
-            cursor: pointer;
-            color: inherit;
-            text-decoration: none;
-        }
-        .quest-wiki-link:hover {
-            color: #58a6ff;
-            text-decoration: underline;
-        }
-        body.light-mode .quest-wiki-link:hover {
-            color: #1f6feb;
-        }
-
         @media (max-width: 640px) {
             body {
                 padding: 1rem 0.8rem;
@@ -1276,28 +1265,6 @@
             renderAffinity();
             renderHearts();
             renderMonsters();
-        }
-
-        // --------------------------------------------------------------
-        //  HELPER: Open Quest Wiki Page (Xeno Series Wiki)
-        // --------------------------------------------------------------
-        function openQuestWiki(questName) {
-            // Find the quest in the questData to get its exact wiki page name
-            let wikiPage = null;
-            for (const area of questData) {
-                for (const q of area.quests) {
-                    if (q.name === questName && q.wiki) {
-                        wikiPage = q.wiki;
-                        break;
-                    }
-                }
-                if (wikiPage) break;
-            }
-
-            // If we found a wiki page, use it; otherwise fallback to generated name
-            const base = 'https://xenoserieswiki.org/wiki/';
-            const page = wikiPage || encodeURIComponent(questName.replace(/ /g, '_'));
-            window.open(base + page, '_blank');
         }
 
         // --------------------------------------------------------------
@@ -2096,7 +2063,7 @@
         // ==============================================================
         //  QUEST CHECKLIST (with grouping + giver/location/prereq + wiki links)
         //  FIXED: Uses composite keys (area + '||' + name) to prevent cross-area conflicts
-        //  NEW: Expand/collapse support with localStorage persistence
+        //  NEW: Quest names are proper <a> tags with href, supporting middle-click
         // ==============================================================
         const QST_STORAGE = 'xenoblade_quest_checklist';
 
@@ -2162,11 +2129,13 @@
                         const key = area.area + '||' + q.name;
                         const checked = state[key] === true;
                         const missable = q.missable || false;
-                        const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
+                        // Build the wiki URL
+                        const wikiUrl = q.wiki ? 'https://xenoserieswiki.org/wiki/' + q.wiki : '#';
+                        const nameLink = `<a href="${wikiUrl}" target="_blank" rel="noopener" class="item-name">${q.name}</a>`;
                         html += `<div class="checklist-item quest-group-item ${checked ? 'checked' : ''}">
                                     <div class="item-row">
                                         <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
-                                        ${nameSpan}
+                                        ${nameLink}
                                         ${missable ? '<span class="missable-tag">missable</span>' : ''}
                                         ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
                                         <span class="item-desc">${q.desc}</span>
@@ -2185,11 +2154,12 @@
                     const key = area.area + '||' + q.name;
                     const checked = state[key] === true;
                     const missable = q.missable || false;
-                    const nameSpan = `<span class="item-name" onclick="openQuestWiki('${q.name.replace(/'/g, "\\'")}')">${q.name}</span>`;
+                    const wikiUrl = q.wiki ? 'https://xenoserieswiki.org/wiki/' + q.wiki : '#';
+                    const nameLink = `<a href="${wikiUrl}" target="_blank" rel="noopener" class="item-name">${q.name}</a>`;
                     html += `<div class="checklist-item ${checked ? 'checked' : ''}">
                                 <div class="item-row">
                                     <input type="checkbox" data-key="${key}" ${checked ? 'checked' : ''} />
-                                    ${nameSpan}
+                                    ${nameLink}
                                     ${missable ? '<span class="missable-tag">missable</span>' : ''}
                                     ${missable && q.by ? `<span class="complete-by-tag">⏳ ${q.by}</span>` : ''}
                                     <span class="item-desc">${q.desc}</span>
@@ -2216,15 +2186,7 @@
 
             // --- ATTACH EVENT LISTENERS FOR EXPAND/COLLAPSE ---
             document.querySelectorAll('#questContainer .checklist-area-header').forEach(header => {
-                // Remove any existing listeners by cloning? We'll just use a new listener.
-                // But we need to make sure we don't attach multiple listeners.
-                // We'll use a flag or just attach it once.
-                // Since renderQuests is called on filter/search, we need to clean up old listeners.
-                // The easiest way is to use a new listener each time, but they might stack.
-                // To prevent stacking, we'll use a specific handler.
-                // Actually, since we are replacing the innerHTML, old listeners are gone.
                 header.addEventListener('click', function(e) {
-                    // Ignore clicks on buttons inside the header
                     if (e.target.closest('button')) {
                         return;
                     }
@@ -2233,7 +2195,6 @@
                     const key = 'quest_area_' + areaName;
                     const isCollapsed = area.classList.toggle('area-collapsed');
                     localStorage.setItem(key, String(isCollapsed));
-                    // Update the icon
                     const icon = this.querySelector('.toggle-icon');
                     if (icon) {
                         icon.textContent = isCollapsed ? '▶' : '▼';
@@ -2244,7 +2205,7 @@
             // --- ATTACH BUTTON LISTENERS (All/None) ---
             document.querySelectorAll('#questContainer .qst-check-all').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent header toggle
+                    e.stopPropagation();
                     const areaName = e.target.dataset.area;
                     const area = questData.find(a => a.area === areaName);
                     if (!area) return;
@@ -2256,7 +2217,7 @@
             });
             document.querySelectorAll('#questContainer .qst-uncheck-all').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent header toggle
+                    e.stopPropagation();
                     const areaName = e.target.dataset.area;
                     const area = questData.find(a => a.area === areaName);
                     if (!area) return;
