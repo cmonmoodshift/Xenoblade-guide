@@ -272,15 +272,19 @@ const locationData = [{
     area: 'Alcamoth',
     locations: [
         // === LANDMARKS (★) ===
-        { name: 'Imperial Palace', desc: '★ Landmark — The seat of the High Entia Emperor.', type: 'Landmark' },
-        { name: 'Main Plaza', desc: '★ Landmark — The central square of the capital.', type: 'Landmark' },
-        { name: 'Park', desc: '★ Landmark — Garden area near the palace.', type: 'Landmark' },
-        { name: 'Market', desc: '★ Landmark — Marketplace in Alcamoth.', type: 'Landmark' },
+        { name: 'Main Entrance', desc: '★ Landmark (GF) — The main gate of Alcamoth.', type: 'Landmark' },
+        { name: 'Fountain of Hope', desc: '★ Landmark (GF) — A fountain in the ground floor area.', type: 'Landmark' },
+        { name: 'Fountain of Eternity', desc: '★ Landmark (GF) — Another fountain landmark on the ground floor.', type: 'Landmark' },
+        { name: 'Imperial Palace', desc: '★ Landmark (1F) — The seat of the High Entia Emperor.', type: 'Landmark' },
+        { name: 'Ascension Hall', desc: '★ Landmark (1F) — A grand hall on the first floor.', type: 'Landmark' },
+        { name: 'Whitewing Palace', desc: '★ Landmark (2F) — Palace on the second floor.', type: 'Landmark' },
+        { name: 'Imperial Villa', desc: '★ Landmark (2F) — Villa on the second floor.', type: 'Landmark' },
         // === LOCATIONS (●) ===
-        { name: 'Residential Area', desc: '● Location — Housing for High Entia citizens.', type: 'Location' },
-        { name: 'Imperial Guard Post', desc: '● Location — Guard post of the Imperial Guard.', type: 'Location' },
-        { name: 'Observatory', desc: '● Location — Observatory for the stars.', type: 'Location' },
-        { name: 'Archives', desc: '● Location — Archive of High Entia history.', type: 'Location' }
+        { name: 'Melfica Road', desc: '● Location (1F) — One of the moving sidewalks in Alcamoth.', type: 'Location' },
+        { name: 'Great Hall', desc: '● Location (1F) — A large hall on the first floor.', type: 'Location' },
+        { name: 'Audience Chamber', desc: '● Location (2F) — Chamber on the second floor.', type: 'Location' },
+        { name: 'Sky Terrace', desc: '● Location (2F) — A terrace with a view.', type: 'Location' },
+        { name: 'Revelation Hall', desc: '● Location (2F) — A hall on the second floor.', type: 'Location' }
     ]
 }, {
     area: 'High Entia Tomb',
