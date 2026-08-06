@@ -248,16 +248,25 @@ const locationData = [{
         { name: 'Khatorl Seal Island', desc: '★ Landmark — Island with a seal.', type: 'Landmark' },
         { name: 'Ether Plant', desc: '★ Landmark — Ether plant on the sea.', type: 'Landmark' },
         { name: 'Faras Cave', desc: '★ Landmark — Cave on the sea.', type: 'Landmark' },
+        { name: 'Hovering Reef 1', desc: '★ Landmark — Floating reef formation #1.', type: 'Landmark' },
+        { name: 'Hovering Reef 5', desc: '★ Landmark — Floating reef formation #5.', type: 'Landmark' },
+        { name: 'Hovering Reef 9', desc: '★ Landmark — Floating reef formation #9.', type: 'Landmark' },
         // === LOCATIONS (●) ===
         { name: 'Anu Shore', desc: '● Location — Shore on the sea.', type: 'Location' },
         { name: 'Bionis\' Occipital', desc: '● Location — Part of the Bionis\' head.', type: 'Location' },
         { name: 'Ether Crystal Deposit', desc: '● Location — Deposit of ether crystals.', type: 'Location' },
         { name: 'Hode Refuge', desc: '● Location — Refuge of the Hodes.', type: 'Location' },
-        { name: 'Hovering Reef 1-10', desc: '● Location — Floating reef formations.', type: 'Location' },
         { name: 'Kromar Coast', desc: '● Location — Coastline on the sea.', type: 'Location' },
         { name: 'Secluded Island', desc: '● Location — Remote island.', type: 'Location' },
         { name: 'Showdown Cliff', desc: '● Location — Cliff for confrontations.', type: 'Location' },
-        { name: 'Sleeping Dragon Isle', desc: '● Location — Island shaped like a sleeping dragon.', type: 'Location' }
+        { name: 'Sleeping Dragon Isle', desc: '● Location — Island shaped like a sleeping dragon.', type: 'Location' },
+        { name: 'Hovering Reef 2', desc: '● Location — Floating reef formation #2.', type: 'Location' },
+        { name: 'Hovering Reef 3', desc: '● Location — Floating reef formation #3.', type: 'Location' },
+        { name: 'Hovering Reef 4', desc: '● Location — Floating reef formation #4.', type: 'Location' },
+        { name: 'Hovering Reef 6', desc: '● Location — Floating reef formation #6.', type: 'Location' },
+        { name: 'Hovering Reef 7', desc: '● Location — Floating reef formation #7.', type: 'Location' },
+        { name: 'Hovering Reef 8', desc: '● Location — Floating reef formation #8.', type: 'Location' },
+        { name: 'Hovering Reef 10', desc: '● Location — Floating reef formation #10.', type: 'Location' }
     ]
 }, {
     area: 'Alcamoth',
