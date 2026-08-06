@@ -290,18 +290,18 @@ const locationData = [{
     area: 'High Entia Tomb',
     locations: [
         // === LANDMARKS (★) ===
-        { name: 'Tomb Entrance', desc: '★ Landmark — The entry to the sacred burial ground.', type: 'Landmark' },
-        { name: 'Ceremony Hall', desc: '★ Landmark — Grand hall for ceremonies.', type: 'Landmark' },
-        { name: 'Hall of Trials', desc: '★ Landmark — A hall where trials take place.', type: 'Landmark' },
-        { name: 'Valley of Emperors', desc: '★ Landmark — A valley area with ancient structures.', type: 'Landmark' },
-        { name: 'Ether Chamber', desc: '★ Landmark — Room filled with ancient ether technology.', type: 'Landmark' },
-        { name: 'Sealed Room', desc: '★ Landmark — Secret Area — behind a hidden door.', type: 'Landmark' },
+        { name: 'Tomb Entrance', desc: '★ Landmark (B1F) — The entry to the sacred burial ground.', type: 'Landmark' },
+        { name: 'Ceremony Hall', desc: '★ Landmark (B1F) — Grand hall for ceremonies.', type: 'Landmark' },
+        { name: 'Tomb Robber\'s Pool', desc: '★ Landmark (B1F) — A pool area in the tomb.', type: 'Landmark' },
+        { name: 'Tower of Trials', desc: '★ Landmark (B1F) — A tower where trials take place.', type: 'Landmark' },
+        { name: 'Sealed Chamber', desc: '★ Landmark (B2F) — A sealed chamber deeper in the tomb.', type: 'Landmark' },
+        { name: 'Valley of Emperors', desc: '★ Landmark (B2F) — A valley area with ancient structures.', type: 'Landmark' },
+        { name: 'Ether Chamber', desc: '★ Landmark (B2F) — Room filled with ancient ether technology.', type: 'Landmark' },
         // === LOCATIONS (●) ===
-        { name: 'Corridor of Silence', desc: '● Location — Silent corridor in the tomb.', type: 'Location' },
-        { name: 'Chamber of Offerings', desc: '● Location — Chamber for offerings.', type: 'Location' },
-        { name: 'Tomb of Kings', desc: '● Location — Tomb of High Entia kings.', type: 'Location' },
-        { name: 'Crypt of the Ancients', desc: '● Location — Crypt of ancient High Entia.', type: 'Location' },
-        { name: 'Ancient Vista', desc: '● Location — A scenic overlook in the tomb.', type: 'Location' }
+        { name: 'Corridor of Silence', desc: '● Location (B1F) — Silent corridor in the tomb.', type: 'Location' },
+        { name: 'Chamber of Offerings', desc: '● Location (B1F) — Chamber for offerings.', type: 'Location' },
+        { name: 'Tomb of Kings', desc: '● Location (B2F) — Tomb of High Entia kings.', type: 'Location' },
+        { name: 'Crypt of the Ancients', desc: '● Location (B2F) — Crypt of ancient High Entia.', type: 'Location' }
     ]
 }, {
     area: 'Prison Island',
